@@ -11,5 +11,5 @@ import { CommonModule } from '@angular/common';
 })
 export class PrizesFlexComponent {
   @Input() prizes!: prize[];
-  @Input() flexDirection?: string = 'horizontal';
+  @Input() flexDirection?: string = 'horizontal';  
 }

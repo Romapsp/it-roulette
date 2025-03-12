@@ -112,7 +112,7 @@
   }
 
 .animate-10 {
-    animation: animate 10s linear infinite;
+    animation: animate 1s linear infinite;
 }
 
 .animate-15 {
@@ -139,7 +139,7 @@
 .prize-list {
     display: flex;
     flex-direction: column;
-    animation: scroll-up 10s linear infinite;
+    animation: scroll-up 1s linear infinite;
 }
 
 @keyframes scroll-up {
