@@ -1,0 +1,11 @@
+<div class="pre-element">
+    @if(prizes){
+    @for(prize of prizes;track prize.id){
+    <div class="pre-element-code">
+        <p>prize id: {{prize.id}}</p>
+        <p>prize image: {{prize.image}}</p>
+        <p>prize text: {{prize.text}}</p>
+    </div>
+    }
+    }
+</div>

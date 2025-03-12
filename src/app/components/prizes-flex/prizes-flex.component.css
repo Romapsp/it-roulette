@@ -1,0 +1,84 @@
+.row {
+    flex-direction: row;
+    min-height: 265px;
+    padding: 33px 0px 82px;
+}
+
+.column {
+    flex-direction: column;
+    padding: 0;
+}
+
+.prizes-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1280px;
+    border-radius: 30px;
+    background-color: #0f0f0f;
+    position: relative;
+    overflow: hidden;
+}
+
+.prizes-flex__prizes {
+    display: flex;
+    -webkit-display: flex;
+    flex-wrap: nowrap;
+    -webkit-flex-wrap: nowrap;
+    align-items: center;
+    -webkit-align-items: center;
+}
+
+.prizes-flex__wrapper {
+    display: flex;
+    -webkit-display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    -webkit-align-items: center;
+}
+
+@keyframes animate {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-100%, 0, 0);
+    }
+}
+
+@-webkit-keyframes animate {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-100%, 0, 0);
+    }
+}
+
+.prizes-flex__prizes > * {
+    flex-shrink: 0;
+}
+
+.animate-0 {
+    animation: animate 0s linear infinite;
+  }
+
+.animate-1 {
+    animation: animate 1s linear infinite;
+  }
+
+.animate-5 {
+    animation: animate 5s linear infinite;
+  }
+
+.animate-10 {
+    animation: animate 10s linear infinite;
+  }
+  
+  .animate-15 {
+    animation: animate 15s linear infinite;
+  }
+  
+  .animate-20 {
+    animation: animate 20s linear infinite;
+  }

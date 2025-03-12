@@ -1,0 +1,21 @@
+<div class="prizes-flex {{flexDirection}}">
+    <div class="prizes-flex__prizes">
+        @if(prizes){
+        <div class="prizes-flex__wrapper {{animationSpeedClass}}">
+            @for(prize of prizes;track prize.id){
+            <app-prize [prize]="prize"></app-prize>
+            }
+        </div>
+        <div class="prizes-flex__wrapper {{animationSpeedClass}}">
+            @for(prize of prizes;track prize.id){
+            <app-prize [prize]="prize"></app-prize>
+            }
+        </div>
+        <div class="prizes-flex__wrapper {{animationSpeedClass}}">
+            @for(prize of prizes;track prize.id){
+            <app-prize [prize]="prize"></app-prize>
+            }
+        </div>
+        }
+    </div>
+</div>
