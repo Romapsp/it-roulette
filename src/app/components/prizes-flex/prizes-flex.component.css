@@ -1,12 +1,13 @@
-.row {
+.horizontal {
     flex-direction: row;
     min-height: 265px;
     padding: 33px 0px 82px;
 }
 
-.column {
+.vertical {
     flex-direction: column;
-    padding: 0;
+    width: 300px;
+    min-height: 80vh;
 }
 
 .prizes-flex {
@@ -37,7 +38,7 @@
     -webkit-align-items: center;
 }
 
-.line {
+.vertical-line {
     position: absolute;
     top: 0;
     left: 50%;
@@ -45,6 +46,16 @@
     height: 234px;
     background-color: rgb(255, 153, 0); 
     transform: translateX(-50%);
+    z-index: 5;
+}
+.horizontal-line {
+    position: absolute;
+    top: 50%; 
+    left: 0; 
+    width: 300px; 
+    height: 4px; 
+    background-color: rgb(255, 153, 0); 
+    transform: translateY(-50%); 
     z-index: 5;
 }
 
@@ -66,6 +77,24 @@
     }
 }
 
+@keyframes verticalanimate {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(0, -80vh, 0);
+    }
+}
+
+@-webkit-keyframes verticalanimate {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(0, -80vh, 0);
+    }
+}
+
 .prizes-flex__prizes > * {
     flex-shrink: 0;
 }
@@ -84,12 +113,40 @@
 
 .animate-10 {
     animation: animate 10s linear infinite;
-  }
-  
-  .animate-15 {
+}
+
+.animate-15 {
     animation: animate 15s linear infinite;
-  }
+}
   
-  .animate-20 {
+.animate-20 {
     animation: animate 20s linear infinite;
-  }
+}
+
+
+.prizes-container {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    overflow: hidden;
+    position: relative;
+    width: 300px;
+    align-items: center;
+    justify-content: center;
+    background-color: #0f0f0f;
+}
+
+.prize-list {
+    display: flex;
+    flex-direction: column;
+    animation: scroll-up 10s linear infinite;
+}
+
+@keyframes scroll-up {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100%);
+    }
+}

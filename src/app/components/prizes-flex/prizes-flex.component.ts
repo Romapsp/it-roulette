@@ -11,11 +11,5 @@ import { CommonModule } from '@angular/common';
 })
 export class PrizesFlexComponent {
   @Input() prizes!: prize[];
-  @Input() flexDirection?: string = 'row';
-  @Input() animationSpeedClass?: string = 'animate-0';
-
-
-  ngOnInit() {
-
-  }
+  @Input() flexDirection?: string = 'horizontal';
 }

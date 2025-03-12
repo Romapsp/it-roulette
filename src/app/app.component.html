@@ -1,12 +1,11 @@
 <div class="container">
     <div class="wrapper">
-        <app-prizes-flex [prizes]="prizes" [flexDirection]="'row'"
-            [animationSpeedClass]="'animate-5'"></app-prizes-flex>
+        <app-prizes-flex [prizes]="prizes" [flexDirection]="designType"></app-prizes-flex>
         <app-spin-button></app-spin-button>
         <div class="settings">
             <ul class="settings-list">
                 <li class="settings-list-item">
-                    <p>Type</p><select data-param="type">
+                    <p>Type</p><select [(ngModel)]="designType">
                         <option value="horizontal">horizontal</option>
                         <option value="vertical">vertical</option>
                     </select>
@@ -44,3 +43,4 @@
         </div>
         <app-prizes-code [prizes]="prizes" class="width-100"></app-prizes-code>
     </div>
+</div>
