@@ -37,6 +37,17 @@
     -webkit-align-items: center;
 }
 
+.line {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 4px;
+    height: 234px;
+    background-color: rgb(255, 153, 0); 
+    transform: translateX(-50%);
+    z-index: 5;
+}
+
 @keyframes animate {
     0% {
         transform: translate3d(0, 0, 0);
