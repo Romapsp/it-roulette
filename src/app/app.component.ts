@@ -6,8 +6,8 @@ import { PrizesCodeComponent } from "./components/prizes-code/prizes-code.compon
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { prize } from "./interfaces/prize.interface";
-import { PrizeComponent } from "./components/prize/prize.component";
 import { PrizeModalComponent } from "./components/prize-modal/prize-modal.component";
+
 
 @Component({
   selector: 'app-root',
@@ -31,8 +31,11 @@ export class AppComponent {
   winnedPrize?: prize = undefined;
   spinningTime: number = 3;
   modalOpen = false;
-
+  soundWhileSpinning?: boolean = false;
   private _designType: string = 'horizontal';
+  melodiesPaths: string[] = ['melodies/1.mp3', 'melodies/2.mp3', 'melodies/3.mp3', 'melodies/4.mp3',
+    'melodies/5.mp3', 'melodies/6.mp3', 'melodies/7.mp3', 'melodies/8.mp3', 'melodies/9.mp3'];
+  private audio: HTMLAudioElement | null = null;
 
   ngOnInit() {
     this.prizeService.getPrizes().subscribe(data => {
@@ -51,10 +54,12 @@ export class AppComponent {
 
 
   spinButtoClick() {
+    if (this.soundWhileSpinning) {
+      this.playRandomMelody();
+    }
     this.winnedPrize = undefined;
     this.spinnig(3);
-    setTimeout(() => { this.stopOnCurrentPrize(); this.modalOpen = true; }, this.spinningTime * 1000);
-    // Остановка через 5 секунд
+    setTimeout(() => { this.stopOnCurrentPrize(); this.modalOpen = true; this.stopMusic(); }, this.spinningTime * 1000);
   }
 
 
@@ -124,6 +129,39 @@ export class AppComponent {
     }
     this.winnedPrize = undefined;
   }
+
+
+  playRandomMelody() {
+    if (this.audio) {
+      this.audio.pause();
+      this.audio.currentTime = 0;
+    }
+
+    if (this.melodiesPaths.length === 0) {
+      console.warn("Список мелодий пуст, не могу воспроизвести звук.");
+      return;
+    }
+
+    // Выбираем случайную мелодию
+    const randomIndex = Math.floor(Math.random() * this.melodiesPaths.length);
+    const selectedMelody = this.melodiesPaths[randomIndex];
+
+    // Убираем выбранную мелодию из списка, чтобы не повторялась до полного проигрывания всех
+    this.melodiesPaths.splice(randomIndex, 1);
+
+    this.audio = new Audio(selectedMelody);
+    this.audio.loop = true;
+    this.audio.play().catch(error => console.error('Ошибка при воспроизведении:', error));
+  }
+
+
+  stopMusic() {
+    if (this.audio) {
+      this.audio.pause();
+      this.audio.currentTime = 0;
+    }
+  }
+
 }
 
 
