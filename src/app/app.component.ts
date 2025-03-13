@@ -6,6 +6,8 @@ import { PrizesCodeComponent } from "./components/prizes-code/prizes-code.compon
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { prize } from "./interfaces/prize.interface";
+import { PrizeComponent } from "./components/prize/prize.component";
+import { PrizeModalComponent } from "./components/prize-modal/prize-modal.component";
 
 @Component({
   selector: 'app-root',
@@ -15,7 +17,8 @@ import { prize } from "./interfaces/prize.interface";
     SpinButtonComponent,
     PrizesCodeComponent,
     FormsModule,
-    CommonModule
+    CommonModule,
+    PrizeModalComponent
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
@@ -25,6 +28,9 @@ export class AppComponent {
 
   prizeService: PrizeService = inject(PrizeService);
   prizes!: prize[];
+  winnedPrize?: prize = undefined;
+  spinningTime: number = 3;
+  modalOpen = false;
 
   private _designType: string = 'horizontal';
 
@@ -42,9 +48,13 @@ export class AppComponent {
     this._designType = value;
   }
 
+
+
   spinButtoClick() {
+    this.winnedPrize = undefined;
     this.spinnig(3);
-    setTimeout(() => this.stopOnCurrentPrize(), 5000);  // Остановка через 5 секунд
+    setTimeout(() => { this.stopOnCurrentPrize(); this.modalOpen = true; }, this.spinningTime * 1000);
+    // Остановка через 5 секунд
   }
 
 
@@ -90,8 +100,9 @@ export class AppComponent {
 
     const prizeId = this.getPrizeIdUnderLine();
     if (!prizeId) return;
-
-    console.log(`Рулетка остановилась на призе: ${prizeId}`);
+    else {
+      this.winnedPrize = this.prizes.find(p => p.id == Number(prizeId));
+    }
   }
 
 
@@ -102,6 +113,16 @@ export class AppComponent {
 
     const verticalElements = document.querySelectorAll('.prize-list');
     verticalElements.forEach(el => el.classList.add(verticalClass));
+  }
+
+  closeModal() {
+    if (this.winnedPrize) {
+      const index = this.prizes.findIndex(p => p.id === this.winnedPrize?.id);
+      if (index > -1) {
+        this.prizes.splice(index, 1);
+      }
+    }
+    this.winnedPrize = undefined;
   }
 }
 

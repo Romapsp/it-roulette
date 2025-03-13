@@ -11,7 +11,7 @@ import { prize } from '../../interfaces/prize.interface';
 export class PrizeComponent {
   @Input() prize!: prize;
   onClick() {
-    alert(this.prize.id);
+    alert(this.prize.text);
   }
 }
 
