@@ -2,52 +2,14 @@
 <div class="prizes-flex">
     <div class="vertical-line"></div>
     <div class="prizes-flex__prizes ">
+        @for(servise of serviseArr; track servise.id){
         @if(prizes){
         <div class="prizes-flex__wrapper horizontal animate-10">
             @for(prize of prizes;track prize.id){
             <app-prize [prize]="prize"></app-prize>
             }
         </div>
-        <div class="prizes-flex__wrapper horizontal animate-10">
-            @for(prize of prizes;track prize.id){
-            <app-prize [prize]="prize"></app-prize>
-            }
-        </div>
-        <div class="prizes-flex__wrapper horizontal animate-10">
-            @for(prize of prizes;track prize.id){
-            <app-prize [prize]="prize"></app-prize>
-            }
-        </div>
-        <div class="prizes-flex__wrapper horizontal animate-10">
-            @for(prize of prizes;track prize.id){
-            <app-prize [prize]="prize"></app-prize>
-            }
-        </div>
-        <div class="prizes-flex__wrapper horizontal animate-10">
-            @for(prize of prizes;track prize.id){
-            <app-prize [prize]="prize"></app-prize>
-            }
-        </div>
-        <div class="prizes-flex__wrapper horizontal animate-10">
-            @for(prize of prizes;track prize.id){
-            <app-prize [prize]="prize"></app-prize>
-            }
-        </div>
-        <div class="prizes-flex__wrapper horizontal animate-10">
-            @for(prize of prizes;track prize.id){
-            <app-prize [prize]="prize"></app-prize>
-            }
-        </div>
-        <div class="prizes-flex__wrapper horizontal animate-10">
-            @for(prize of prizes;track prize.id){
-            <app-prize [prize]="prize"></app-prize>
-            }
-        </div>
-        <div class="prizes-flex__wrapper horizontal animate-10">
-            @for(prize of prizes;track prize.id){
-            <app-prize [prize]="prize"></app-prize>
-            }
-        </div>
+        }
         }
     </div>
 </div>
@@ -55,52 +17,14 @@
 @else{
 <div class="prizes-container">
     <div class="horizontal-line"></div>
+    @for(servise of serviseArr; track servise.id){
     @if(prizes){
     <div class="prize-list">
         @for(prize of prizes; track prize.id){
         <app-prize [prize]="prize"></app-prize>
         }
     </div>
-    <div class="prize-list">
-        @for(prize of prizes; track prize.id){
-        <app-prize [prize]="prize"></app-prize>
-        }
-    </div>
-    <div class="prize-list">
-        @for(prize of prizes; track prize.id){
-        <app-prize [prize]="prize"></app-prize>
-        }
-    </div>
-    <div class="prize-list">
-        @for(prize of prizes; track prize.id){
-        <app-prize [prize]="prize"></app-prize>
-        }
-    </div>
-    <div class="prize-list">
-        @for(prize of prizes; track prize.id){
-        <app-prize [prize]="prize"></app-prize>
-        }
-    </div>
-    <div class="prize-list">
-        @for(prize of prizes; track prize.id){
-        <app-prize [prize]="prize"></app-prize>
-        }
-    </div>
-    <div class="prize-list">
-        @for(prize of prizes; track prize.id){
-        <app-prize [prize]="prize"></app-prize>
-        }
-    </div>
-    <div class="prize-list">
-        @for(prize of prizes; track prize.id){
-        <app-prize [prize]="prize"></app-prize>
-        }
-    </div>
-    <div class="prize-list">
-        @for(prize of prizes; track prize.id){
-        <app-prize [prize]="prize"></app-prize>
-        }
-    </div>
+    }
     }
 </div>
 }
