@@ -1,7 +1,7 @@
 <div class="container">
     <div class="wrapper">
         <app-prizes-flex [prizes]="prizes" [flexDirection]="designType"></app-prizes-flex>
-        <app-spin-button></app-spin-button>
+        <app-spin-button (click)="spinButtoClick()"></app-spin-button>
         <div class="settings">
             <ul class="settings-list">
                 <li class="settings-list-item">

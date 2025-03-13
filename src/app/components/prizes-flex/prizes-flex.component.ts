@@ -16,7 +16,7 @@ export class PrizesFlexComponent {
   serviseArr: servise[] = [];
 
   ngOnChanges() {
-    for (let i = 0; i < Math.ceil(30 / this.prizes.length); i++) {
+    for (let i = 0; i < Math.ceil(40 / this.prizes.length); i++) {
       this.serviseArr.push({ id: i });
     }
   }

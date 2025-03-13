@@ -99,28 +99,16 @@
     flex-shrink: 0;
 }
 
-.animate-0 {
-    animation: animate 0s linear infinite;
-  }
-
 .animate-1 {
-    animation: animate 1s linear infinite;
-  }
-
-.animate-5 {
-    animation: animate 5s linear infinite;
-  }
-
-.animate-10 {
     animation: animate 10s linear infinite;
 }
 
-.animate-15 {
-    animation: animate 15s linear infinite;
-}
-  
-.animate-20 {
-    animation: animate 20s linear infinite;
+.animate-2 {
+    animation: animate 1s linear infinite;
+  }
+
+.animate-3 {
+    animation: animate 0.1s linear infinite;
 }
 
 
@@ -139,7 +127,6 @@
 .prize-list {
     display: flex;
     flex-direction: column;
-    animation: scroll-up 10s linear infinite;
 }
 
 @keyframes scroll-up {
@@ -149,4 +136,12 @@
     100% {
         transform: translateY(-100%);
     }
+}
+
+.vertical-animate{
+    animation: scroll-up 10s linear infinite;
+}
+
+.stop-animation {
+    animation-play-state: paused !important;
 }

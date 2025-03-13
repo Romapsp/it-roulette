@@ -19,7 +19,7 @@
     <div class="horizontal-line"></div>
     @for(servise of serviseArr; track servise.id){
     @if(prizes){
-    <div class="prize-list">
+    <div class="prize-list vertical-animate">
         @for(prize of prizes; track prize.id){
         <app-prize [prize]="prize"></app-prize>
         }
