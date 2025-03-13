@@ -7,10 +7,9 @@ import { prize } from '../../interfaces/prize.interface';
   styleUrls: ['./prize-modal.component.css']
 })
 export class PrizeModalComponent {
-  @Input() prize!: prize; // Получаем приз как входной параметр
-  @Output() close = new EventEmitter<void>(); // Событие для закрытия модального окна
+  @Input() prize!: prize;
+  @Output() close = new EventEmitter<void>();
 
-  // Метод для закрытия модального окна
   closeModal() {
     this.close.emit();
   }

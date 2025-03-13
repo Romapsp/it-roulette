@@ -141,12 +141,9 @@ export class AppComponent {
       console.warn("Список мелодий пуст, не могу воспроизвести звук.");
       return;
     }
-
-    // Выбираем случайную мелодию
     const randomIndex = Math.floor(Math.random() * this.melodiesPaths.length);
     const selectedMelody = this.melodiesPaths[randomIndex];
 
-    // Убираем выбранную мелодию из списка, чтобы не повторялась до полного проигрывания всех
     this.melodiesPaths.splice(randomIndex, 1);
 
     this.audio = new Audio(selectedMelody);
