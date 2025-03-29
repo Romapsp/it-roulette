@@ -6,7 +6,6 @@ import { PrizesCodeComponent } from "./components/prizes-code/prizes-code.compon
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { prize } from "./interfaces/prize.interface";
-import { PrizeModalComponent } from "./components/prize-modal/prize-modal.component";
 
 
 @Component({
@@ -17,8 +16,7 @@ import { PrizeModalComponent } from "./components/prize-modal/prize-modal.compon
     SpinButtonComponent,
     PrizesCodeComponent,
     FormsModule,
-    CommonModule,
-    PrizeModalComponent
+    CommonModule
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
@@ -29,13 +27,14 @@ export class AppComponent {
   prizeService: PrizeService = inject(PrizeService);
   prizes!: prize[];
   winnedPrize?: prize = undefined;
-  spinningTime: number = 3;
   modalOpen = false;
-  soundWhileSpinning?: boolean = false;
+  soundWhileSpinning?: boolean = true;
   private _designType: string = 'horizontal';
   melodiesPaths: string[] = ['melodies/1.mp3', 'melodies/2.mp3', 'melodies/3.mp3', 'melodies/4.mp3',
     'melodies/5.mp3', 'melodies/6.mp3', 'melodies/7.mp3', 'melodies/8.mp3', 'melodies/9.mp3'];
   private audio: HTMLAudioElement | null = null;
+  clicable: boolean = true;
+  animationSpeed: number = 0;
 
   ngOnInit() {
     this.prizeService.getPrizes().subscribe(data => {
@@ -53,19 +52,62 @@ export class AppComponent {
 
 
 
-  spinButtoClick() {
-    if (this.soundWhileSpinning) {
-      this.playRandomMelody();
+  async spinButtonClick() {
+    if (this.clicable) {
+
+      this.clicable = false;
+
+      if (this.winnedPrize?.id) {
+        this.prizes = this.prizes.filter(p => p.id !== this.winnedPrize!.id);
+      }
+
+      this.winnedPrize = undefined;
+
+      if (this.soundWhileSpinning) {
+        this.playRandomMelody();
+      }
+
+      const delays = [3000, 2000, 1000].map(base => base + this.getRandomNumber(0, 2000));
+
+      this.animationSpeed = 3;
+      await this.delay(delays[0]);
+
+      this.animationSpeed = 2;
+      await this.delay(delays[1]);
+
+      this.animationSpeed = 1;
+      await this.delay(delays[2]);
+
+      this.animationSpeed = 0;
+
+      const prizeId = this.getPrizeIdUnderLine();
+      console.log(prizeId);
+      if (prizeId) {
+        this.winnedPrize = this.prizes.find(p => p.id == Number(prizeId));
+        console.log(this.winnedPrize);
+      }
+
+
+      this.stopMusic();
+      this.clicable = true;
     }
-    this.winnedPrize = undefined;
-    this.spinnig(3);
-    setTimeout(() => { this.stopOnCurrentPrize(); this.modalOpen = true; this.stopMusic(); }, this.spinningTime * 1000);
   }
 
 
+  delay(ms: number | undefined) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   getPrizeIdUnderLine() {
     if (this._designType === 'horizontal') {
-      const centerElement = document.elementFromPoint(window.innerWidth / 2, 135);
+      const percentageX = 49; // 50% от ширины окна
+      const xInPixels = (window.innerWidth * percentageX) / 100; // Конвертация в пиксели
+      const yInPixels = 135; // Вертикальная координата в пикселях
+
+
+      const centerElement = document.elementFromPoint(xInPixels, yInPixels);
+
+
       return (centerElement?.id);
     }
     else {
@@ -73,63 +115,6 @@ export class AppComponent {
       return (centerElement?.id);
     }
   }
-
-
-  spinnig(speed: number) {
-    const elements = document.querySelectorAll('.prizes-flex__wrapper');
-    elements.forEach(el => el.classList.remove('animate-1', 'animate-2', 'animate-3', 'stop-animation'));
-
-    const elementsVertical = document.querySelectorAll('.prize-list');
-    elementsVertical.forEach(el => el.classList.remove('stop-animation'));
-
-
-    switch (speed) {
-      case 1:
-        this.applyAnimation('animate-1', 'vertical-animate');
-        break;
-      case 2:
-        this.applyAnimation('animate-2', 'vertical-animate');
-        break;
-      case 3:
-        this.applyAnimation('animate-3', 'vertical-animate');
-        break;
-      default:
-        this.applyAnimation('stop-animation', 'stop-animation');
-        break;
-    }
-  }
-
-
-  stopOnCurrentPrize() {
-    this.applyAnimation('stop-animation', 'stop-animation');
-
-    const prizeId = this.getPrizeIdUnderLine();
-    if (!prizeId) return;
-    else {
-      this.winnedPrize = this.prizes.find(p => p.id == Number(prizeId));
-    }
-  }
-
-
-
-  private applyAnimation(horizontalClass: string, verticalClass: string) {
-    const horizontalElements = document.querySelectorAll('.prizes-flex__wrapper');
-    horizontalElements.forEach(el => el.classList.add(horizontalClass));
-
-    const verticalElements = document.querySelectorAll('.prize-list');
-    verticalElements.forEach(el => el.classList.add(verticalClass));
-  }
-
-  closeModal() {
-    if (this.winnedPrize) {
-      const index = this.prizes.findIndex(p => p.id === this.winnedPrize?.id);
-      if (index > -1) {
-        this.prizes.splice(index, 1);
-      }
-    }
-    this.winnedPrize = undefined;
-  }
-
 
   playRandomMelody() {
     if (this.audio) {
@@ -159,6 +144,9 @@ export class AppComponent {
     }
   }
 
+  getRandomNumber(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 }
 
 

@@ -4,7 +4,7 @@
     <div class="prizes-flex__prizes ">
         @for(servise of serviseArr; track servise.id){
         @if(prizes){
-        <div class="prizes-flex__wrapper horizontal animate-10">
+        <div class="prizes-flex__wrapper horizontal">
             @for(prize of prizes;track prize.id){
             <app-prize [prize]="prize"></app-prize>
             }

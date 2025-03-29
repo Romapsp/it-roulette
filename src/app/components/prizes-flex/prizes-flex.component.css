@@ -1,3 +1,4 @@
+/* Горизонтальное и вертикальное направление */
 .horizontal {
     flex-direction: row;
     min-height: 265px;
@@ -10,6 +11,7 @@
     min-height: 80vh;
 }
 
+/* Контейнер с анимацией */
 .prizes-flex {
     display: flex;
     justify-content: center;
@@ -23,31 +25,29 @@
 
 .prizes-flex__prizes {
     display: flex;
-    -webkit-display: flex;
     flex-wrap: nowrap;
-    -webkit-flex-wrap: nowrap;
     align-items: center;
-    -webkit-align-items: center;
 }
 
 .prizes-flex__wrapper {
     display: flex;
-    -webkit-display: flex;
     flex-wrap: nowrap;
     align-items: center;
-    -webkit-align-items: center;
 }
 
+/* Вертикальная линия */
 .vertical-line {
     position: absolute;
     top: 0;
-    left: 50%;
+    left: 49%;
     width: 4px;
     height: 234px;
     background-color: rgb(255, 153, 0); 
     transform: translateX(-50%);
     z-index: 5;
 }
+
+/* Горизонтальная линия */
 .horizontal-line {
     position: absolute;
     top: 50%; 
@@ -59,59 +59,40 @@
     z-index: 5;
 }
 
+/* Анимация для горизонтального движения */
 @keyframes animate {
     0% {
         transform: translate3d(0, 0, 0);
     }
     100% {
-        transform: translate3d(-100%, 0, 0);
+        transform: translate3d(calc(-100% + 1px), 0, 0); /* Двигаем на 100% за 10 секунд */
     }
 }
 
-@-webkit-keyframes animate {
-    0% {
-        transform: translate3d(0, 0, 0);
-    }
-    100% {
-        transform: translate3d(-100%, 0, 0);
-    }
-}
-
+/* Анимация для вертикального движения */
 @keyframes verticalanimate {
     0% {
         transform: translate3d(0, 0, 0);
     }
     100% {
-        transform: translate3d(0, -80vh, 0);
+        transform: translate3d(0, -80vh, 0); /* Двигаем на 80vh за 10 секунд */
     }
 }
 
-@-webkit-keyframes verticalanimate {
-    0% {
-        transform: translate3d(0, 0, 0);
-    }
-    100% {
-        transform: translate3d(0, -80vh, 0);
-    }
-}
-
-.prizes-flex__prizes > * {
-    flex-shrink: 0;
-}
-
+/* Анимация для горизонтальной прокрутки */
 .animate-1 {
     animation: animate 10s linear infinite;
 }
 
 .animate-2 {
     animation: animate 1s linear infinite;
-  }
+}
 
 .animate-3 {
     animation: animate 0.5s linear infinite;
 }
 
-
+/* Контейнер для списка призов */
 .prizes-container {
     display: flex;
     flex-direction: column;
@@ -129,6 +110,7 @@
     flex-direction: column;
 }
 
+/* Вертикальная анимация */
 @keyframes scroll-up {
     0% {
         transform: translateY(0);
@@ -138,10 +120,13 @@
     }
 }
 
-.vertical-animate{
+/* Применение вертикальной анимации */
+.vertical-animate {
     animation: scroll-up 10s linear infinite;
 }
 
 .stop-animation {
-    animation-play-state: paused !important;
+    animation-play-state: paused !important; /* Останавливаем анимацию */
+    transition: none; /* Убираем плавность, чтобы зафиксировать текущую позицию */
 }
+

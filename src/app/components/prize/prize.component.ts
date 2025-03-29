@@ -9,9 +9,6 @@ import { prize } from '../../interfaces/prize.interface';
   styleUrl: './prize.component.css'
 })
 export class PrizeComponent {
-  @Input() prize!: prize;
-  onClick() {
-    alert(this.prize.text);
-  }
+  @Input() prize!: prize;  
 }
 

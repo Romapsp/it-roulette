@@ -1,10 +1,7 @@
 <div class="container">
     <div class="wrapper">
-        @if(winnedPrize){
-        <app-prize-modal [prize]="winnedPrize" (close)="closeModal()"></app-prize-modal>
-        }
-        <app-prizes-flex [prizes]="prizes" [flexDirection]="designType"></app-prizes-flex>
-        <app-spin-button (click)="spinButtoClick()"></app-spin-button>
+        <app-prizes-flex [prizes]="prizes" [flexDirection]="designType" [animationSpeed]="animationSpeed"></app-prizes-flex>
+        <app-spin-button (click)="spinButtonClick()"></app-spin-button>
         <div class="settings">
             <ul class="settings-list">
                 <li class="settings-list-item">
@@ -33,15 +30,7 @@
                 <li class="settings-list-item">
                     <p>Stop in the prize item center</p><input data-param="stopInCenter" type="checkbox">
                 </li>
-                <li class="settings-list-item">
-                    <p>Spinning time</p><select [(ngModel)]="spinningTime">
-                        <option value="3">3</option>
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
-                        <option value="20">20</option>
-                    </select>
-                </li>
+
             </ul>
         </div>
         <app-prizes-code [prizes]="prizes" class="width-100"></app-prizes-code>
