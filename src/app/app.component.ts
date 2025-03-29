@@ -71,22 +71,23 @@ export class AppComponent {
 
       const delays = [3000, 2000, 1000].map(base => base + this.getRandomNumber(0, 2000));
 
+      let maxAddedTime = 4;
+      let addedTyme = maxAddedTime - this.getRandomNumber(0, 4);
+      maxAddedTime = maxAddedTime - addedTyme;
       this.animationSpeed = 3;
-      await this.delay(delays[0]);
+      await this.delay(delays[0] + addedTyme);
 
+      addedTyme = maxAddedTime - this.getRandomNumber(0, maxAddedTime);
+      maxAddedTime = maxAddedTime - addedTyme;
       this.animationSpeed = 2;
-      await this.delay(delays[1]);
-
+      await this.delay(delays[1] + addedTyme);
       this.animationSpeed = 1;
-      await this.delay(delays[2]);
+      await this.delay(delays[2] + maxAddedTime);
 
       this.animationSpeed = 0;
-
       const prizeId = this.getPrizeIdUnderLine();
-      console.log(prizeId);
       if (prizeId) {
         this.winnedPrize = this.prizes.find(p => p.id == Number(prizeId));
-        console.log(this.winnedPrize);
       }
 
       this.stopMusic();
@@ -107,7 +108,6 @@ export class AppComponent {
       line.style.zIndex = '-1';
       const centerElement = document.elementFromPoint(xInPixels, yInPixels);
       line.style.zIndex = '5';
-      console.log(centerElement);
       return (centerElement?.id);
     }
     else {
