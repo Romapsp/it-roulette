@@ -1,59 +1,119 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, AfterViewInit, OnDestroy, ViewChild, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
 import { prize } from '../../interfaces/prize.interface';
 import { PrizeComponent } from "../prize/prize.component";
 import { CommonModule } from '@angular/common';
-import { servise } from '../../interfaces/srvise.interface';
 
 @Component({
   selector: 'app-prizes-flex',
   standalone: true,
   imports: [PrizeComponent, CommonModule],
   templateUrl: './prizes-flex.component.html',
-  styleUrls: ['./prizes-flex.component.css'] // Исправлено на styleUrls, а не styleUrl
+  styleUrls: ['./prizes-flex.component.css']
 })
-export class PrizesFlexComponent implements OnChanges {
-  @Input() prizes!: prize[];
-  @Input() flexDirection?: string = 'horizontal';
-  @Input() animationSpeed: number = 0;
-  serviseArr: servise[] = [];
+export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges {
+  @Input() prizes: prize[] = [];
+  @Input() animationSpeed: number = 1;
+  @ViewChild('wrapper', { static: false }) wrapperRef!: ElementRef<HTMLDivElement>;
+  prizesForList: prizeForList[] = [];
+  private animationFrameId: number | null = null;
+  private currentX: number = 0;
+  private speedMap = { 1: 10, 2: 50, 3: 100 }; // Разные скорости прокрутки
+  private container: HTMLElement | null = null;
+
+  flag: boolean = true;
+
+  ngAfterViewInit(): void {
+    this.container = this.wrapperRef.nativeElement;
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.prizes && this.prizes.length > 0) { // Добавлена проверка на undefined
-      this.serviseArr = [];
-      const numServises = Math.ceil(40 / this.prizes.length); // Для создания массива сервисов на основе количества призов
-      for (let i = 0; i < numServises; i++) {
-        this.serviseArr.push({ id: i });
+    if (changes['animationSpeed']) {
+      this.stopAnimation();
+      this.startAnimation(this.animationSpeed);
+    }
+    if (changes['prizes'] && Array.isArray(this.prizes)) {
+      this.prizesForList = this.prizes.map((prize, index) => ({ id: index, prize }));
+      this.fillContainer();
+    }
+  }
+
+
+  // Старт анимации
+  startAnimation(speed: number) {
+    this.fillContainer();
+    console.log(this.prizesForList.length);
+    if (!this.container) return;
+
+    const move = () => {
+      if (!this.container) return;
+
+      // Прокручиваем элементы влево
+      this.currentX -= this.speedMap[speed as keyof typeof this.speedMap];
+
+      // Когда элементы уходят за пределы контейнера, сбрасываем позицию
+      if (Math.abs(this.currentX) >= this.container.scrollWidth / 2) {
+        this.currentX = 0;
+        this.moveElementsToStart(); // Перемещаем элементы обратно в начало
+      }
+
+      this.container.style.transform = `translateX(${this.currentX}px)`;
+
+      // Запускаем анимацию на следующем кадре
+      this.animationFrameId = requestAnimationFrame(move);
+    };
+
+    if (speed > 0) {
+      this.animationFrameId = requestAnimationFrame(move);
+    }
+  }
+
+  // Останавливаем анимацию
+  stopAnimation() {
+    if (this.animationFrameId !== null) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
+  }
+
+  // Заполнение контейнера элементами для бесконечной прокрутки
+  fillContainer() {
+
+    const containerWidth = this.container?.offsetWidth || 0;
+    const itemWidth = this.container?.firstElementChild?.clientWidth || 0;
+
+    if (itemWidth === 0 || containerWidth === 0 || this.prizesForList.length === 0) return;
+
+    // Определяем сколько элементов нужно, чтобы заполнить контейнер
+    const numberOfElementsToFill = 9;
+
+    // Дублируем элементы для бесконечной прокрутки
+    const items = this.prizesForList.slice();
+    while (this.prizesForList.length < 2000) {
+      this.prizesForList.push(...items); // Добавляем элементы в конец
+    }
+
+  }
+
+  // Перемещение элементов в начало ленты, когда они уходят за пределы
+  moveElementsToStart() {
+    if (this.prizesForList.length > 1) {
+      const firstElement = this.prizesForList.shift();
+      if (firstElement) {
+        this.prizesForList.push(firstElement); // Перемещаем первый элемент в конец
       }
     }
-    this.spinning(this.animationSpeed); // Вызов метода spinning с текущей скоростью анимации
   }
 
-  spinning(speed: number) {
-    const elements = document.querySelectorAll('.prizes-flex__wrapper');
-    const elementsVertical = document.querySelectorAll('.prize-list');
-    switch (speed) {
-      case 1:
-        elements.forEach(el => el.classList.remove('animate-1', 'animate-2', 'animate-3', 'stop-animation'));
-        this.applyAnimation('animate-1', 'vertical-animate');
-        break;
-      case 2:
-        elements.forEach(el => el.classList.remove('animate-1', 'animate-2', 'animate-3', 'stop-animation'));
-        this.applyAnimation('animate-2', 'vertical-animate');
-        break;
-      case 3:
-        elements.forEach(el => el.classList.remove('animate-1', 'animate-2', 'animate-3', 'stop-animation'));
-        this.applyAnimation('animate-3', 'vertical-animate');
-        break;
-      default:
-        this.applyAnimation('stop-animation', 'stop-animation');
-        break;
-    }
+  ngOnDestroy() {
+    this.stopAnimation();
   }
 
-  private applyAnimation(horizontalClass: string, verticalClass: string) {
-    const horizontalElements = document.querySelectorAll('.prizes-flex__wrapper');
-    horizontalElements.forEach(el => el.classList.add(horizontalClass));
-    const verticalElements = document.querySelectorAll('.prize-list');
-    verticalElements.forEach(el => el.classList.add(verticalClass));
+  trackByFn(index: number, prize: prizeForList): number {
+    return prize.id;
   }
+}
+
+interface prizeForList {
+  id: number;
+  prize: prize;
 }

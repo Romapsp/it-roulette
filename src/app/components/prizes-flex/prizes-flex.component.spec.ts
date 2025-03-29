@@ -10,7 +10,7 @@ describe('PrizesFlexComponent', () => {
     await TestBed.configureTestingModule({
       imports: [PrizesFlexComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(PrizesFlexComponent);
     component = fixture.componentInstance;

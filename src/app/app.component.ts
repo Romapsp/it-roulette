@@ -30,7 +30,6 @@ export class AppComponent {
   winnedPrize?: prize = undefined;
   modalOpen = false;
   soundWhileSpinning?: boolean = true;
-  private _designType: string = 'horizontal';
   melodiesPaths: string[] = ['melodies/1.mp3', 'melodies/2.mp3', 'melodies/3.mp3', 'melodies/4.mp3',
     'melodies/5.mp3', 'melodies/6.mp3', 'melodies/7.mp3', 'melodies/8.mp3', 'melodies/9.mp3'];
   private audio: HTMLAudioElement | null = null;
@@ -38,7 +37,7 @@ export class AppComponent {
   animationSpeed: number = 0;
 
   ngOnInit() {
-    this.prizeService.getPrizes().subscribe(data => {
+    this.prizeService.getPrizes().subscribe(async data => {
       this.prizes = data;
       for (let i = 0; i < this.prizes.length; i++) {
         this.viewedPrizes.push({ prize: this.prizes[i], isVieved: true });
@@ -46,15 +45,9 @@ export class AppComponent {
     });
   }
 
-  get designType(): string {
-    return this._designType;
-  }
-
-  set designType(value: string) {
-    this._designType = value;
-  }
-
   async spinButtonClick() {
+
+    console.log(this.winnedPrize);
     if (this.clicable) {
 
       this.clicable = false;
@@ -70,26 +63,22 @@ export class AppComponent {
       }
 
       const delays = [3000, 2000, 1000].map(base => base + this.getRandomNumber(0, 2000));
-
       let maxAddedTime = 4;
       let addedTyme = maxAddedTime - this.getRandomNumber(0, 4);
       maxAddedTime = maxAddedTime - addedTyme;
       this.animationSpeed = 3;
       await this.delay(delays[0] + addedTyme);
-
       addedTyme = maxAddedTime - this.getRandomNumber(0, maxAddedTime);
       maxAddedTime = maxAddedTime - addedTyme;
       this.animationSpeed = 2;
       await this.delay(delays[1] + addedTyme);
       this.animationSpeed = 1;
       await this.delay(delays[2] + maxAddedTime);
-
       this.animationSpeed = 0;
       const prizeId = this.getPrizeIdUnderLine();
       if (prizeId) {
         this.winnedPrize = this.prizes.find(p => p.id == Number(prizeId));
       }
-
       this.stopMusic();
       this.clicable = true;
     }
@@ -101,19 +90,13 @@ export class AppComponent {
   }
 
   getPrizeIdUnderLine() {
-    if (this._designType === 'horizontal') {
-      const xInPixels = (window.innerWidth * 49) / 100; // Конвертация в пиксели
-      const yInPixels = (window.innerHeight * 13) / 100; // Вертикальная координата в пикселях
-      const line = document.querySelector('.vertical-line') as HTMLElement;
-      line.style.zIndex = '-1';
-      const centerElement = document.elementFromPoint(xInPixels, yInPixels);
-      line.style.zIndex = '5';
-      return (centerElement?.id);
-    }
-    else {
-      const centerElement = document.elementFromPoint(window.innerWidth / 2, 383);
-      return (centerElement?.id);
-    }
+    const xInPixels = (window.innerWidth * 52) / 100; // Конвертация в пиксели
+    const yInPixels = (window.innerHeight * 13) / 100; // Вертикальная координата в пикселях
+    const line = document.querySelector('.vertical-line') as HTMLElement;
+    line.style.zIndex = '-1';
+    const centerElement = document.elementFromPoint(xInPixels, yInPixels);
+    line.style.zIndex = '5';
+    return (centerElement?.id);
   }
 
   playRandomMelody() {

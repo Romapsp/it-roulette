@@ -1,17 +1,3 @@
-/* Горизонтальное и вертикальное направление */
-.horizontal {
-    flex-direction: row;
-    min-height: 265px;
-    padding: 33px 0px 82px;
-}
-
-.vertical {
-    flex-direction: column;
-    width: 300px;
-    min-height: 80vh;
-}
-
-/* Контейнер с анимацией */
 .prizes-flex {
     display: flex;
     justify-content: center;
@@ -21,22 +7,25 @@
     background-color: #0f0f0f;
     position: relative;
     overflow: hidden;
-}
-
-.prizes-flex__prizes {
+  }
+  
+  .prizes-flex__prizes {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
-}
-
-.prizes-flex__wrapper {
+  }
+  
+  .prizes-flex__wrapper {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
-}
-
-/* Вертикальная линия */
-.vertical-line {
+    min-height: 265px;
+    padding: 33px 0px 82px;
+    transition: transform 0.2s linear;
+  }
+  
+  /* Вертикальная линия */
+  .vertical-line {
     position: absolute;
     top: 0;
     left: 49%;
@@ -45,88 +34,5 @@
     background-color: rgb(255, 153, 0); 
     transform: translateX(-50%);
     z-index: 5;
-}
-
-/* Горизонтальная линия */
-.horizontal-line {
-    position: absolute;
-    top: 50%; 
-    left: 0; 
-    width: 300px; 
-    height: 4px; 
-    background-color: rgb(255, 153, 0); 
-    transform: translateY(-50%); 
-    z-index: 5;
-}
-
-/* Анимация для горизонтального движения */
-@keyframes animate {
-    0% {
-        transform: translate3d(0, 0, 0);
-    }
-    100% {
-        transform: translate3d(calc(-100% + 1px), 0, 0); /* Двигаем на 100% за 10 секунд */
-    }
-}
-
-/* Анимация для вертикального движения */
-@keyframes verticalanimate {
-    0% {
-        transform: translate3d(0, 0, 0);
-    }
-    100% {
-        transform: translate3d(0, -80vh, 0); /* Двигаем на 80vh за 10 секунд */
-    }
-}
-
-/* Анимация для горизонтальной прокрутки */
-.animate-1 {
-    animation: animate 10s linear infinite;
-}
-
-.animate-2 {
-    animation: animate 1s linear infinite;
-}
-
-.animate-3 {
-    animation: animate 0.5s linear infinite;
-}
-
-/* Контейнер для списка призов */
-.prizes-container {
-    display: flex;
-    flex-direction: column;
-    height: 80vh;
-    overflow: hidden;
-    position: relative;
-    width: 300px;
-    align-items: center;
-    justify-content: center;
-    background-color: #0f0f0f;
-}
-
-.prize-list {
-    display: flex;
-    flex-direction: column;
-}
-
-/* Вертикальная анимация */
-@keyframes scroll-up {
-    0% {
-        transform: translateY(0);
-    }
-    100% {
-        transform: translateY(-100%);
-    }
-}
-
-/* Применение вертикальной анимации */
-.vertical-animate {
-    animation: scroll-up 10s linear infinite;
-}
-
-.stop-animation {
-    animation-play-state: paused !important; /* Останавливаем анимацию */
-    transition: none; /* Убираем плавность, чтобы зафиксировать текущую позицию */
-}
-
+  }
+  

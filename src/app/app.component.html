@@ -1,36 +1,12 @@
 <div class="container">
     <div class="wrapper">
-        <app-prizes-flex [prizes]="prizes" [flexDirection]="designType" [animationSpeed]="animationSpeed"></app-prizes-flex>
+        <app-prizes-flex [prizes]="prizes" [animationSpeed]="animationSpeed"></app-prizes-flex>
         <app-spin-button (click)="spinButtonClick()"></app-spin-button>
         <div class="settings">
             <ul class="settings-list">
                 <li class="settings-list-item">
-                    <p>Type</p><select [(ngModel)]="designType">
-                        <option value="horizontal">horizontal</option>
-                        <option value="vertical">vertical</option>
-                    </select>
-                </li>
-                <li class="settings-list-item">
-                    <p>Design</p><select data-param="design">
-                        <option value="Regular">Regular</option>
-                    </select>
-                </li>
-                <li class="settings-list-item">
-                    <p>Prizes with text</p><input data-param="prizesWithText" type="checkbox">
-                </li>
-                <li class="settings-list-item">
-                    <p>Without animation</p><input data-param="withoutAnimation" type="checkbox">
-                </li>
-                <li class="settings-list-item">
-                    <p>Hide center delimiter</p><input data-param="hideCenterDelimiter" type="checkbox">
-                </li>
-                <li class="settings-list-item">
                     <p>Sound while spinning</p><input [(ngModel)]="soundWhileSpinning" type="checkbox">
                 </li>
-                <li class="settings-list-item">
-                    <p>Stop in the prize item center</p><input data-param="stopInCenter" type="checkbox">
-                </li>
-
             </ul>
         </div>
         <app-prizes-code [prizes]="prizes" class="width-100"></app-prizes-code>
