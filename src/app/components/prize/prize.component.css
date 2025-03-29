@@ -1,16 +1,17 @@
 .prize{
     width: 205px;
-    height: 220px;
+    height: 250px;
     overflow: hidden;
     border: 1px solid #3b3a3a;
     background-color: #242323;
     color: aliceblue;
 }
 
-img{
-    width: 205px;
+img {    
     height: 174px;
-    object-fit: cover;
+    object-fit: contain; /* Показывает всю картинку без обрезки */
+    width: 100%;
+    height: auto;
 }
 
 .prize__text{
@@ -20,5 +21,5 @@ img{
     margin-left: 5px;
     margin-right: 5px;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
 }

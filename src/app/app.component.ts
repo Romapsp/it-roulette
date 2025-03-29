@@ -26,6 +26,7 @@ export class AppComponent {
 
   prizeService: PrizeService = inject(PrizeService);
   prizes!: prize[];
+  viewedPrizes: vievedPrize[] = [];
   winnedPrize?: prize = undefined;
   modalOpen = false;
   soundWhileSpinning?: boolean = true;
@@ -39,6 +40,9 @@ export class AppComponent {
   ngOnInit() {
     this.prizeService.getPrizes().subscribe(data => {
       this.prizes = data;
+      for (let i = 0; i < this.prizes.length; i++) {
+        this.viewedPrizes.push({ prize: this.prizes[i], isVieved: true });
+      }
     });
   }
 
@@ -49,8 +53,6 @@ export class AppComponent {
   set designType(value: string) {
     this._designType = value;
   }
-
-
 
   async spinButtonClick() {
     if (this.clicable) {
@@ -87,7 +89,6 @@ export class AppComponent {
         console.log(this.winnedPrize);
       }
 
-
       this.stopMusic();
       this.clicable = true;
     }
@@ -100,14 +101,13 @@ export class AppComponent {
 
   getPrizeIdUnderLine() {
     if (this._designType === 'horizontal') {
-      const percentageX = 49; // 50% от ширины окна
-      const xInPixels = (window.innerWidth * percentageX) / 100; // Конвертация в пиксели
-      const yInPixels = 135; // Вертикальная координата в пикселях
-
-
+      const xInPixels = (window.innerWidth * 49) / 100; // Конвертация в пиксели
+      const yInPixels = (window.innerHeight * 13) / 100; // Вертикальная координата в пикселях
+      const line = document.querySelector('.vertical-line') as HTMLElement;
+      line.style.zIndex = '-1';
       const centerElement = document.elementFromPoint(xInPixels, yInPixels);
-
-
+      line.style.zIndex = '5';
+      console.log(centerElement);
       return (centerElement?.id);
     }
     else {
@@ -147,6 +147,12 @@ export class AppComponent {
   getRandomNumber(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
+
+}
+
+interface vievedPrize {
+  prize: prize,
+  isVieved: boolean
 }
 
 
