@@ -8,6 +8,16 @@
                     <p>Sound while spinning</p><input [(ngModel)]="soundWhileSpinning" type="checkbox">
                 </li>
             </ul>
+            <form *ngIf="form" [formGroup]="form" (ngSubmit)="submitForm()">
+                <div formArrayName="checkboxes">
+                    <ul class="settings-list">
+                        <li *ngFor="let prize of prizesCheckboxes; let i = index; trackBy: trackById" class="settings-list-item">
+                            <p>{{ prize.text }}</p>
+                            <input type="checkbox" [formControlName]="i">
+                        </li>
+                    </ul>
+                </div>
+            </form>
         </div>
         <app-prizes-code [prizes]="prizes" class="width-100"></app-prizes-code>
     </div>
