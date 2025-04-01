@@ -8,5 +8,6 @@ import { prize } from '../../interfaces/prize.interface';
   styleUrl: './prizes-code.component.css'
 })
 export class PrizesCodeComponent {
- @Input() prizes!: prize[];
+  @Input() prizes!: prize[];
+
 }
