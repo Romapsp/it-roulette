@@ -10,7 +10,7 @@
 img {    
     height: 174px;
     object-fit: contain; /* Показывает всю картинку без обрезки */
-    width: 100%;
+    width: 90%;
     height: auto;
 }
 

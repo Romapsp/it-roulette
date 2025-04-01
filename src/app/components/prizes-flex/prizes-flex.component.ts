@@ -87,7 +87,7 @@ export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges 
 
     // Дублируем элементы для бесконечной прокрутки
     const items = this.prizesForList.slice();
-    while (this.prizesForList.length < 2000) {
+    while (this.prizesForList.length < 3000) {
       this.prizesForList.push(...items); // Добавляем элементы в конец
     }
 

@@ -90,12 +90,10 @@ export class AppComponent {
         addedTyme = maxAddedTime - this.getRandomNumber(0, maxAddedTime);
         maxAddedTime -= addedTyme;
         this.animationSpeed = 2;
-
         setTimeout(() => {
           this.animationSpeed = 1;
-
           setTimeout(() => {
-            this.animationSpeed = 0;
+            //this.animationSpeed = 0;
             setTimeout(() => {
               const prizeId = this.getPrizeIdUnderLine();
               if (prizeId) {
@@ -107,9 +105,10 @@ export class AppComponent {
                 setTimeout(() => {
                   const prizeId = this.getPrizeIdUnderLine();
                   this.prizeUncheck(prizeId);
-                  this.animationSpeed = 0;
+                  //this.animationSpeed = 0;
                 }, 100)
               }
+              this.animationSpeed = 0;
               this.stopMusic();
               this.clicable = true;
             }, 1000);
