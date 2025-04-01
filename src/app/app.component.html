@@ -10,18 +10,20 @@
                     <p>Sound while spinning</p><input [(ngModel)]="soundWhileSpinning" type="checkbox">
                 </li>
             </ul>
-            <div class="settings">
-                <ul class="settings-list">
-                    <li *ngFor="let checkedPrize of checkedPrizes; let i = index; trackBy: trackById"
-                        class="settings-list-item">
-                        <p>{{ checkedPrize.prize.text }}</p>
-                        <input type="checkbox" [id]="checkedPrize.prize.id" [(ngModel)]="checkedPrize.checked"
-                            (click)="prizeCheckStateInput(checkedPrize, $event)">
-                    </li>
 
-                </ul>
-            </div>
+            <ul class="settings-list">
+                <li *ngFor="let checkedPrize of checkedPrizes; let i = index; trackBy: trackById"
+                    class="settings-list-item">
+                    <p>{{ checkedPrize.prize.text }}</p>
+                    <input type="checkbox" [id]="checkedPrize.prize.id" [(ngModel)]="checkedPrize.checked"
+                        (click)="prizeCheckStateInput(checkedPrize, $event)">
+                </li>
+
+            </ul>
+
         </div>
+        @if(prizes){
         <app-prizes-code [prizes]="prizeToShow ?? []" class="width-100"></app-prizes-code>
+        }
     </div>
 </div>
