@@ -1,6 +1,8 @@
 <div class="container">
     <div class="wrapper">
-        <app-prizes-flex [prizes]="prizes" [animationSpeed]="animationSpeed"></app-prizes-flex>
+        @if(prizes){
+        <app-prizes-flex [prizes]="prizeToShow ?? []" [animationSpeed]="animationSpeed"></app-prizes-flex>
+        }
         <app-spin-button (click)="spinButtonClick()"></app-spin-button>
         <div class="settings">
             <ul class="settings-list">
@@ -8,17 +10,18 @@
                     <p>Sound while spinning</p><input [(ngModel)]="soundWhileSpinning" type="checkbox">
                 </li>
             </ul>
-            <form *ngIf="form" [formGroup]="form" (ngSubmit)="submitForm()">
-                <div formArrayName="checkboxes">
-                    <ul class="settings-list">
-                        <li *ngFor="let prize of prizesCheckboxes; let i = index; trackBy: trackById" class="settings-list-item">
-                            <p>{{ prize.text }}</p>
-                            <input type="checkbox" [formControlName]="i">
-                        </li>
-                    </ul>
-                </div>
-            </form>
+            <div class="settings">
+                <ul class="settings-list">
+                    <li *ngFor="let checkedPrize of checkedPrizes; let i = index; trackBy: trackById"
+                        class="settings-list-item">
+                        <p>{{ checkedPrize.prize.text }}</p>
+                        <input type="checkbox" [id]="checkedPrize.prize.id" [(ngModel)]="checkedPrize.checked"
+                            (click)="prizeCheckStateInput(checkedPrize, $event)">
+                    </li>
+
+                </ul>
+            </div>
         </div>
-        <app-prizes-code [prizes]="prizes" class="width-100"></app-prizes-code>
+        <app-prizes-code [prizes]="prizeToShow ?? []" class="width-100"></app-prizes-code>
     </div>
 </div>

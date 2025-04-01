@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./prizes-flex.component.css']
 })
 export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges {
-  @Input() prizes: prize[] = [];
+  @Input() prizes!: prize[];
   @Input() animationSpeed: number = 1;
   @ViewChild('wrapper', { static: false }) wrapperRef!: ElementRef<HTMLDivElement>;
   prizesForList: prizeForList[] = [];
@@ -41,7 +41,6 @@ export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges 
   // Старт анимации
   startAnimation(speed: number) {
     this.fillContainer();
-    console.log(this.prizesForList.length);
     if (!this.container) return;
 
     const move = () => {

@@ -1,9 +1,9 @@
-import { Component, inject, SimpleChanges } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { PrizeService } from "./servises/prizeServise";
 import { PrizesFlexComponent } from "./components/prizes-flex/prizes-flex.component";
 import { SpinButtonComponent } from "./components/spin-button/spin-button.component";
 import { PrizesCodeComponent } from "./components/prizes-code/prizes-code.component";
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { prize } from "./interfaces/prize.interface";
 
@@ -23,12 +23,12 @@ import { prize } from "./interfaces/prize.interface";
 })
 export class AppComponent {
   title = 'Roulette';
-
+  checkedPrizes?: checkedPrize[] = [];
   prizeService: PrizeService = inject(PrizeService);
   prizes!: prize[];
+  prizeToShow?: prize[] = [];
   winnedPrize?: prize = undefined;
   soundWhileSpinning?: boolean = true;
-  prizesCheckboxes: prize[] = [];
   melodiesPaths: string[] = [
     'melodies/1.mp3', 'melodies/2.mp3', 'melodies/3.mp3', 'melodies/4.mp3',
     'melodies/5.mp3', 'melodies/6.mp3', 'melodies/7.mp3', 'melodies/8.mp3', 'melodies/9.mp3'
@@ -37,91 +37,90 @@ export class AppComponent {
   clicable: boolean = true;
   animationSpeed: number = 0;
 
-  form!: FormGroup;
-
-  constructor(private fb: FormBuilder) { }
-
   ngOnInit() {
     this.prizeService.getPrizes().subscribe(data => {
       this.prizes = data;
-      this.prizesCheckboxes = data;
-      this.form = this.fb.group({
-        checkboxes: this.fb.array(this.prizesCheckboxes.map(() => this.fb.control(true)))
-      });
-      this.checkboxes.valueChanges.subscribe(values => { this.prizeChecking(values); }
-      );
+      for (let i = 0; i < this.prizes.length; i++) {
+        this.checkedPrizes?.push({ checked: true, prize: this.prizes[i] });
+        this.prizeToShow?.push(this.prizes[i]);
+      }
     });
   }
 
-  prizeChecking(values: boolean[]) {
-    const tmpArr: prize[] = [];
-    this.prizeService.getPrizes().subscribe(data => {
-      this.prizes = data;
-      for (let i = 0; i < this.prizes.length; i++) {
-        if (values[i]) {
-          tmpArr.push(this.prizes[i])
-        }
-      }
-      this.prizes = tmpArr;
-    })
+
+
+  // Renamed to avoid duplicate function implementation
+  prizeCheckStateInput(checkedPrize: any, event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    checkedPrize.checked = inputElement.checked;
+    this.updatePrizeCheckState()
   }
 
-  get checkboxes(): FormArray {
-    return this.form.get('checkboxes') as FormArray;
-  }
-
-  submitForm(): void {
-    // Получаем массив boolean из чекбоксов
-    const selectedValues: boolean[] = this.form.value.checkboxes;
-    console.log("Массив булевых значений:", selectedValues);
-  }
-
-  // Остальные методы компонента, например, spinButtonClick, playRandomMelody и т.д.
-  async spinButtonClick() {
-    // Пример логики спина
-    console.log(this.winnedPrize);
-    if (this.clicable) {
-      this.clicable = false;
-      if (this.winnedPrize?.id) {
-        this.prizes = this.prizes.filter(p => p.id !== this.winnedPrize!.id);
+  updatePrizeCheckState() {
+    this.prizeToShow = [];
+    for (let i = 0; i < (this.checkedPrizes ?? []).length; i++) {
+      if ((this.checkedPrizes ?? [])[i].checked) {
+        this.prizeToShow.push((this.checkedPrizes ?? [])[i].prize);
       }
-      this.winnedPrize = undefined;
-      if (this.soundWhileSpinning) {
-        this.playRandomMelody();
-      }
-      // Пример задержек и изменения скорости анимации
-      const delays = [3000, 2000, 1000].map(base => base + this.getRandomNumber(0, 2000));
-      let maxAddedTime = 4;
-      let addedTyme = maxAddedTime - this.getRandomNumber(0, 4);
-      maxAddedTime = maxAddedTime - addedTyme;
-      this.animationSpeed = 3;
-      await this.delay(delays[0] + addedTyme);
-      addedTyme = maxAddedTime - this.getRandomNumber(0, maxAddedTime);
-      maxAddedTime = maxAddedTime - addedTyme;
-      this.animationSpeed = 2;
-      await this.delay(delays[1] + addedTyme);
-      this.animationSpeed = 1;
-      await this.delay(delays[2] + maxAddedTime);
-      this.animationSpeed = 0;
-      const prizeId = this.getPrizeIdUnderLine();
-      if (prizeId) {
-        this.winnedPrize = this.prizes.find(p => p.id == Number(prizeId));
-      }
-      this.stopMusic();
-      this.clicable = true;
     }
   }
 
-  delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+  spinButtonClick() {
+    if (this.clicable) {
+      this.updatePrizeCheckState();
+      this.clicable = false;
+
+      if (this.winnedPrize?.id) {
+        this.checkedPrizes?.filter(c => c.prize.id == this.winnedPrize!.id)
+          .forEach(c => c.checked = false);
+      }
+
+      this.winnedPrize = undefined;
+
+      if (this.soundWhileSpinning) {
+        this.playRandomMelody();
+      }
+      const delays = [3000, 2000, 1000].map(base => base + this.getRandomNumber(0, 2000));
+      let maxAddedTime = 4;
+      let addedTyme = maxAddedTime - this.getRandomNumber(0, 4);
+      maxAddedTime -= addedTyme;
+      this.animationSpeed = 3;
+
+      setTimeout(() => {
+        addedTyme = maxAddedTime - this.getRandomNumber(0, maxAddedTime);
+        maxAddedTime -= addedTyme;
+        this.animationSpeed = 2;
+
+        setTimeout(() => {
+          this.animationSpeed = 1;
+
+          setTimeout(() => {
+            this.animationSpeed = 0;
+            this.stopMusic();
+            setTimeout(() => {
+              const prizeId = this.getPrizeIdUnderLine();
+              if (prizeId) {
+                const prizeToUncheck = this.checkedPrizes?.find(p => p.prize.id == Number(prizeId));
+                if (prizeToUncheck) {
+                  prizeToUncheck.checked = false;
+                }
+              }
+              this.clicable = true;
+            }, 1000);
+          }, delays[2] + maxAddedTime);
+        }, delays[1] + addedTyme);
+      }, delays[0] + addedTyme);
+    }
   }
 
+
+
   getPrizeIdUnderLine() {
-    const xInPixels = (window.innerWidth * 52) / 100;
-    const yInPixels = (window.innerHeight * 13) / 100;
     const line = document.querySelector('.vertical-line') as HTMLElement;
+    const xInPixels = (window.innerWidth * 49.5) / 100;
+    const yInPixels = (window.innerHeight * 13) / 100;
     line.style.zIndex = '-1';
-    const centerElement = document.elementFromPoint(xInPixels, yInPixels);
+    const centerElement = document.elementFromPoint(xInPixels, yInPixels) as HTMLElement;
     line.style.zIndex = '5';
     return centerElement?.id;
   }
@@ -154,7 +153,13 @@ export class AppComponent {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  trackById(index: number, item: any): number {
-    return item.id;
+  trackById(index: number, item: checkedPrize): number {
+    return item.prize.id;
   }
+
+
+}
+interface checkedPrize {
+  checked: boolean,
+  prize: prize
 }
