@@ -17,7 +17,7 @@ export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges 
   prizesForList: prizeForList[] = [];
   private animationFrameId: number | null = null;
   private currentX: number = 0;
-  private speedMap = { 1: 10, 2: 50, 3: 100 }; // Разные скорости прокрутки
+  private speedMap = { 1: 10, 2: 25, 3: 50 }; // Разные скорости прокрутки
   private container: HTMLElement | null = null;
 
   flag: boolean = true;
