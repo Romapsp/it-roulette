@@ -80,8 +80,8 @@ export class AppComponent {
       if (this.soundWhileSpinning) {
         this.playRandomMelody();
       }
-      const delays = [3000, 2000, 1000].map(base => base + this.getRandomNumber(0, 2000));
-      let maxAddedTime = 4;
+      const delays = [3000, 2000, 2000].map(base => base + this.getRandomNumber(0, 2000));
+      let maxAddedTime = 3;
       let addedTyme = maxAddedTime - this.getRandomNumber(0, 4);
       maxAddedTime -= addedTyme;
       this.animationSpeed = 3;
@@ -96,15 +96,21 @@ export class AppComponent {
 
           setTimeout(() => {
             this.animationSpeed = 0;
-            this.stopMusic();
             setTimeout(() => {
               const prizeId = this.getPrizeIdUnderLine();
               if (prizeId) {
-                const prizeToUncheck = this.checkedPrizes?.find(p => p.prize.id == Number(prizeId));
-                if (prizeToUncheck) {
-                  prizeToUncheck.checked = false;
-                }
+                this.prizeUncheck(prizeId);
               }
+              else {
+                console.log(prizeId);
+                this.animationSpeed = 1;
+                setTimeout(() => {
+                  const prizeId = this.getPrizeIdUnderLine();
+                  this.prizeUncheck(prizeId);
+                  this.animationSpeed = 0;
+                }, 100)
+              }
+              this.stopMusic();
               this.clicable = true;
             }, 1000);
           }, delays[2] + maxAddedTime);
@@ -156,7 +162,12 @@ export class AppComponent {
   trackById(index: number, item: checkedPrize): number {
     return item.prize.id;
   }
-
+  prizeUncheck(prizeId: string) {
+    const prizeToUncheck = this.checkedPrizes?.find(p => p.prize.id == Number(prizeId));
+    if (prizeToUncheck) {
+      prizeToUncheck.checked = false;
+    }
+  }
 
 }
 interface checkedPrize {
