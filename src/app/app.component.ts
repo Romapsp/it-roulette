@@ -57,76 +57,61 @@ export class AppComponent {
   }
 
   updatePrizeCheckState() {
-    this.prizeToShow = [];
-    for (let i = 0; i < (this.checkedPrizes ?? []).length; i++) {
-      if ((this.checkedPrizes ?? [])[i].checked) {
-        this.prizeToShow.push((this.checkedPrizes ?? [])[i].prize);
-      }
-    }
+    this.prizeToShow = this.checkedPrizes?.filter(c => c.checked).map(c => c.prize) ?? [];
   }
 
-  spinButtonClick() {
-    if (this.clicable) {
-      this.updatePrizeCheckState();
-      this.clicable = false;
 
-      if (this.winnedPrize?.id) {
-        this.checkedPrizes?.filter(c => c.prize.id == this.winnedPrize!.id)
-          .forEach(c => c.checked = false);
-      }
+  async spinButtonClick() {
+    if (!this.clicable) return;
 
-      this.winnedPrize = undefined;
+    this.updatePrizeCheckState();
+    this.clicable = false;
+    this.winnedPrize = undefined;
 
-      if (this.soundWhileSpinning) {
-        this.playRandomMelody();
-      }
-      const delays = [3000, 2000, 2000].map(base => base + this.getRandomNumber(0, 2000));
-      let maxAddedTime = 3;
-      let addedTyme = maxAddedTime - this.getRandomNumber(0, 4);
-      maxAddedTime -= addedTyme;
-      this.animationSpeed = 3;
-
-      setTimeout(() => {
-        addedTyme = maxAddedTime - this.getRandomNumber(0, maxAddedTime);
-        maxAddedTime -= addedTyme;
-        this.animationSpeed = 2;
-        setTimeout(() => {
-          this.animationSpeed = 1;
-          setTimeout(() => {
-            this.animationSpeed = 0;
-            setTimeout(() => {
-              const prizeId = this.getPrizeIdUnderLine();
-              if (prizeId) {
-                this.prizeUncheck(prizeId);
-              }
-              else {
-                console.log(prizeId);
-                this.animationSpeed = 1;
-                setTimeout(() => {
-                  const prizeId = this.getPrizeIdUnderLine();
-                  this.prizeUncheck(prizeId);
-                  this.animationSpeed = 0;
-                }, 100)
-              }
-              this.animationSpeed = 0;
-              this.stopMusic();
-              this.clicable = true;
-            }, 1000);
-          }, delays[2] + maxAddedTime);
-        }, delays[1] + addedTyme);
-      }, delays[0] + addedTyme);
+    if (this.soundWhileSpinning) {
+      this.playRandomMelody();
     }
+
+    const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+    this.animationSpeed = 3;
+    await wait(this.getRandomNumber(3000, 5000));
+
+    this.animationSpeed = 2;
+    await wait(this.getRandomNumber(2000, 4000));
+
+    this.animationSpeed = 1;
+    await wait(this.getRandomNumber(2000, 4000));
+
+    this.animationSpeed = 0;
+    await wait(1000);
+
+    const prizeId = this.getPrizeIdUnderLine();
+    this.prizeUncheck(prizeId);
+    console.log(prizeId);
+    if (prizeId == '') {
+      this.animationSpeed = 1;
+      await wait(200);
+      this.animationSpeed = 0;
+      const prizeId = this.getPrizeIdUnderLine();
+      this.prizeUncheck(prizeId);
+    }
+
+    this.stopMusic();
+    this.clicable = true;
   }
+
 
 
 
   getPrizeIdUnderLine() {
     const line = document.querySelector('.vertical-line') as HTMLElement;
+    line.style.visibility = 'hidden'; // Временно скрываем линию
     const xInPixels = (window.innerWidth * 49.5) / 100;
     const yInPixels = (window.innerHeight * 13) / 100;
-    line.style.zIndex = '-1';
     const centerElement = document.elementFromPoint(xInPixels, yInPixels) as HTMLElement;
-    line.style.zIndex = '5';
+    line.style.visibility = 'visible'; // Восстанавливаем видимость
+
     return centerElement?.id;
   }
 
@@ -161,12 +146,15 @@ export class AppComponent {
   trackById(index: number, item: checkedPrize): number {
     return item.prize.id;
   }
+
   prizeUncheck(prizeId: string) {
-    const prizeToUncheck = this.checkedPrizes?.find(p => p.prize.id == Number(prizeId));
+    if (!this.checkedPrizes) return;
+    const prizeToUncheck = this.checkedPrizes.find(p => p.prize.id == Number(prizeId));
     if (prizeToUncheck) {
       prizeToUncheck.checked = false;
     }
   }
+
 
 }
 interface checkedPrize {
