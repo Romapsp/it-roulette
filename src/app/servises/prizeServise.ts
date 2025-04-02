@@ -6,6 +6,8 @@ import { prize } from "../interfaces/prize.interface";
 @Injectable({
     providedIn: 'root'
 })
+
+
 export class PrizeService {
 
     constructor(private http: HttpClient) { }
@@ -15,4 +17,5 @@ export class PrizeService {
     getPrizes() {
         return this.http.get<prize[]>(this.prizeUrl);
     }
+
 }

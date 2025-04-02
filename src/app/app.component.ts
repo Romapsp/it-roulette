@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { prize } from "./interfaces/prize.interface";
 
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -21,6 +22,8 @@ import { prize } from "./interfaces/prize.interface";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
+
 export class AppComponent {
   title = 'Roulette';
   checkedPrizes?: checkedPrize[] = [];
@@ -37,6 +40,7 @@ export class AppComponent {
   clicable: boolean = true;
   animationSpeed: number = 0;
 
+
   ngOnInit() {
     this.prizeService.getPrizes().subscribe(data => {
       this.prizes = data;
@@ -48,13 +52,12 @@ export class AppComponent {
   }
 
 
-
-  // Renamed to avoid duplicate function implementation
   prizeCheckStateInput(checkedPrize: any, event: Event) {
     const inputElement = event.target as HTMLInputElement;
     checkedPrize.checked = inputElement.checked;
     this.updatePrizeCheckState()
   }
+
 
   updatePrizeCheckState() {
     this.prizeToShow = this.checkedPrizes?.filter(c => c.checked).map(c => c.prize) ?? [];
@@ -63,29 +66,21 @@ export class AppComponent {
 
   async spinButtonClick() {
     if (!this.clicable) return;
-
     this.updatePrizeCheckState();
     this.clicable = false;
     this.winnedPrize = undefined;
-
     if (this.soundWhileSpinning) {
       this.playRandomMelody();
     }
-
     const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
     this.animationSpeed = 3;
     await wait(this.getRandomNumber(3000, 5000));
-
     this.animationSpeed = 2;
     await wait(this.getRandomNumber(2000, 4000));
-
     this.animationSpeed = 1;
     await wait(this.getRandomNumber(2000, 4000));
-
     this.animationSpeed = 0;
     await wait(1000);
-
     const prizeId = this.getPrizeIdUnderLine();
     this.prizeUncheck(prizeId);
     console.log(prizeId);
@@ -96,26 +91,19 @@ export class AppComponent {
       const prizeId = this.getPrizeIdUnderLine();
       this.prizeUncheck(prizeId);
     }
-
     this.stopMusic();
     this.clicable = true;
   }
 
 
-
-
   getPrizeIdUnderLine() {
     const line = document.querySelector('.vertical-line') as HTMLElement;
-
     line.style.visibility = 'hidden';
-
     const rect = line.getBoundingClientRect();
     const xInPixels = rect.left + rect.width * 0.495;
     const yInPixels = window.innerHeight * 0.13;
-
     const centerElement = document.elementFromPoint(xInPixels, yInPixels) as HTMLElement;
     line.style.visibility = 'visible';
-
     return centerElement?.id;
   }
 
@@ -137,6 +125,7 @@ export class AppComponent {
     this.audio.play().catch(error => console.error('Ошибка при воспроизведении:', error));
   }
 
+
   stopMusic() {
     if (this.audio) {
       this.audio.pause();
@@ -144,13 +133,16 @@ export class AppComponent {
     }
   }
 
+
   getRandomNumber(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+
   trackById(index: number, item: checkedPrize): number {
     return item.prize.id;
   }
+
 
   prizeUncheck(prizeId: string) {
     if (!this.checkedPrizes) return;
