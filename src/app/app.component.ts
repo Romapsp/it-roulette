@@ -93,7 +93,7 @@ export class AppComponent {
         setTimeout(() => {
           this.animationSpeed = 1;
           setTimeout(() => {
-            //this.animationSpeed = 0;
+            this.animationSpeed = 0;
             setTimeout(() => {
               const prizeId = this.getPrizeIdUnderLine();
               if (prizeId) {
@@ -105,7 +105,7 @@ export class AppComponent {
                 setTimeout(() => {
                   const prizeId = this.getPrizeIdUnderLine();
                   this.prizeUncheck(prizeId);
-                  //this.animationSpeed = 0;
+                  this.animationSpeed = 0;
                 }, 100)
               }
               this.animationSpeed = 0;
