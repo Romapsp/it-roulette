@@ -106,14 +106,19 @@ export class AppComponent {
 
   getPrizeIdUnderLine() {
     const line = document.querySelector('.vertical-line') as HTMLElement;
-    line.style.visibility = 'hidden'; // Временно скрываем линию
-    const xInPixels = (window.innerWidth * 49.5) / 100;
-    const yInPixels = (window.innerHeight * 13) / 100;
+
+    line.style.visibility = 'hidden';
+
+    const rect = line.getBoundingClientRect();
+    const xInPixels = rect.left + rect.width * 0.495;
+    const yInPixels = window.innerHeight * 0.13;
+
     const centerElement = document.elementFromPoint(xInPixels, yInPixels) as HTMLElement;
-    line.style.visibility = 'visible'; // Восстанавливаем видимость
+    line.style.visibility = 'visible';
 
     return centerElement?.id;
   }
+
 
   playRandomMelody() {
     if (this.audio) {
