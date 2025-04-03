@@ -79,18 +79,16 @@ export class AppComponent {
     await wait(this.getRandomNumber(2000, 4000));
     this.animationSpeed = 1;
     await wait(this.getRandomNumber(2000, 4000));
-    let curentPrizeId = -1;
     let flag = true;
     while (flag) {
-      await wait(10);
-      curentPrizeId = parseInt(this.getPrizeIdUnderLine(), 10);
-      if (this.winnedPrize.id == curentPrizeId) {
+      if (this.winnedPrize.id == parseInt(this.getPrizeIdUnderLine(), 10)) {
         this.animationSpeed = 0;
         this.stopMusic();
         this.prizeUncheck(this.winnedPrize.id.toString());
         this.clicable = true;
         flag = false;
       }
+      await wait(10);
     }
   }
 
