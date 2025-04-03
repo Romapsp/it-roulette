@@ -88,7 +88,7 @@ export class AppComponent {
         this.clicable = true;
         flag = false;
       }
-      await wait(10);
+      await wait(1);
     }
   }
 
