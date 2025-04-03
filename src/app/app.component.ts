@@ -86,7 +86,7 @@ export class AppComponent {
     console.log(prizeId);
     if (prizeId == '') {
       this.animationSpeed = 1;
-      await wait(200);
+      await wait(75);
       this.animationSpeed = 0;
       const prizeId = this.getPrizeIdUnderLine();
       this.prizeUncheck(prizeId);
