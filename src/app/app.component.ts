@@ -156,3 +156,5 @@ interface checkedPrize {
   checked: boolean,
   prize: prize
 }
+
+//yyyyyyyyyyyyyy
