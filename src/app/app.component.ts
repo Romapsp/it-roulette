@@ -74,11 +74,11 @@ export class AppComponent {
     }
     const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
     this.animationSpeed = 3;
-    await wait(this.getRandomNumber(3000, 5000));
+    await wait(4000);
     this.animationSpeed = 2;
-    await wait(this.getRandomNumber(2000, 4000));
+    await wait(3000);
     this.animationSpeed = 1;
-    await wait(this.getRandomNumber(2000, 4000));
+    await wait(2000);
     let flag = true;
     while (flag) {
       if (this.winnedPrize.id == parseInt(this.getPrizeIdUnderLine(), 10)) {
