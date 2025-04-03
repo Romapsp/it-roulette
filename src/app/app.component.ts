@@ -68,7 +68,7 @@ export class AppComponent {
     if (!this.clicable) return;
     this.updatePrizeCheckState();
     this.clicable = false;
-    this.winnedPrize = undefined;
+    this.winnedPrize = (this.prizeToShow ?? [])[this.getRandomNumber(0, (this.prizeToShow?.length ?? 0) - 1)];
     if (this.soundWhileSpinning) {
       this.playRandomMelody();
     }
@@ -79,20 +79,19 @@ export class AppComponent {
     await wait(this.getRandomNumber(2000, 4000));
     this.animationSpeed = 1;
     await wait(this.getRandomNumber(2000, 4000));
-    this.animationSpeed = 0;
-    await wait(1000);
-    const prizeId = this.getPrizeIdUnderLine();
-    this.prizeUncheck(prizeId);
-    console.log(prizeId);
-    if (prizeId == '') {
-      this.animationSpeed = 1;
-      await wait(75);
-      this.animationSpeed = 0;
-      const prizeId = this.getPrizeIdUnderLine();
-      this.prizeUncheck(prizeId);
+    let curentPrizeId = -1;
+    let flag = true;
+    while (flag) {
+      await wait(10);
+      curentPrizeId = parseInt(this.getPrizeIdUnderLine(), 10);
+      if (this.winnedPrize.id == curentPrizeId) {
+        this.animationSpeed = 0;
+        this.stopMusic();
+        this.prizeUncheck(this.winnedPrize.id.toString());
+        this.clicable = true;
+        flag = false;
+      }
     }
-    this.stopMusic();
-    this.clicable = true;
   }
 
 
