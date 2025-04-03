@@ -150,6 +150,9 @@ export class AppComponent {
     }
   }
 
+  correctPrizeStoping(prizeId: number) {
+
+  }
 
 }
 interface checkedPrize {
@@ -157,4 +160,3 @@ interface checkedPrize {
   prize: prize
 }
 
-//yyyyyyyyyyyyyy
