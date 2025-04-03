@@ -80,6 +80,16 @@ p {
         margin: -48px 0px 5px;
         overflow: hidden;
     }
+    .gray-block{
+        max-width: 398px;
+        min-height: 70px;
+        box-sizing: border-box;
+        background: linear-gradient(rgb(32, 32, 32) 65%, rgba(7, 7, 7, 0) 92%, rgba(0, 0, 0, 0) 99%);
+        border-radius: 38px;
+        padding: 18px 13px 5px;
+        margin: 0px auto;
+        background-image: url("../../../public/assets/button-background.png");
+    }
     
     
     .button-wrapper{
