@@ -20,7 +20,7 @@ export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges 
   prizesForList: prizeForList[] = [];
   private animationFrameId: number | null = null;
   private currentX: number = 0;
-  private speedMap = { 1: 10, 2: 25, 3: 50 };
+  private speedMap = { 1: 5, 2: 50, 3: 75 };
   private container: HTMLElement | null = null;
   flag: boolean = true;
 
@@ -34,6 +34,7 @@ export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges 
     if (changes['animationSpeed']) {
       this.stopAnimation();
       this.startAnimation(this.animationSpeed);
+
     }
     if (changes['prizes'] && Array.isArray(this.prizes)) {
       this.prizesForList = this.prizes.map((prize, index) => ({ id: index, prize }));

@@ -68,6 +68,7 @@ export class AppComponent {
     this.updatePrizeCheckState();
     this.clicable = false;
     this.winnedPrize = (this.prizeToShow ?? [])[this.getRandomNumber(0, (this.prizeToShow?.length ?? 0) - 1)];
+    console.log('wp: ' + this.winnedPrize.id);
     if (this.soundWhileSpinning) {
       this.playRandomMelody();
     }
@@ -82,7 +83,7 @@ export class AppComponent {
     while (flag) {
       if (this.winnedPrize.id == parseInt(this.getPrizeIdUnderLine(), 10)) {
         this.animationSpeed = 0;
-        console.log('wp: ' + this.winnedPrize.id);
+        console.log('cp: ' + parseInt(this.getPrizeIdUnderLine(), 10));
         this.stopMusic();
         this.prizeUncheck(this.winnedPrize.id.toString());
         this.clicable = true;
