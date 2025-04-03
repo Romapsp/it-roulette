@@ -13,7 +13,6 @@ import { prize } from "./interfaces/prize.interface";
   standalone: true,
   imports: [
     PrizesFlexComponent,
-    SpinButtonComponent,
     PrizesCodeComponent,
     FormsModule,
     CommonModule,
@@ -83,6 +82,7 @@ export class AppComponent {
     while (flag) {
       if (this.winnedPrize.id == parseInt(this.getPrizeIdUnderLine(), 10)) {
         this.animationSpeed = 0;
+        console.log('wp: ' + this.winnedPrize.id);
         this.stopMusic();
         this.prizeUncheck(this.winnedPrize.id.toString());
         this.clicable = true;

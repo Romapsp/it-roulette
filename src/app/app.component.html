@@ -3,7 +3,13 @@
         @if(prizes){
         <app-prizes-flex [prizes]="prizeToShow ?? []" [animationSpeed]="animationSpeed"></app-prizes-flex>
         }
-        <app-spin-button (click)="spinButtonClick()"></app-spin-button>
+        <div class="roulette-actions ">
+            <div class="gray-block">
+                <div class="button-wrapper">
+                    <button class="spin-button" type="button" (click)="spinButtonClick()">Spin</button>
+                </div>
+            </div>
+        </div>
         <div class="settings">
             <ul class="settings-list">
                 <li class="settings-list-item">
