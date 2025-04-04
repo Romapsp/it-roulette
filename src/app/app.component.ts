@@ -83,7 +83,6 @@ export class AppComponent {
     while (flag) {
       if (this.winnedPrize.id == parseInt(this.getPrizeIdUnderLine(), 10)) {
         this.animationSpeed = 0;
-        console.log('cp: ' + parseInt(this.getPrizeIdUnderLine(), 10));
         this.stopMusic();
         this.prizeUncheck(this.winnedPrize.id.toString());
         this.clicable = true;
@@ -96,7 +95,6 @@ export class AppComponent {
     while (flag) {
       if (this.winnedPrize.id == parseInt(this.getPrizeIdUnderLine(), 10)) {
         this.animationSpeed = 0;
-        console.log('cp: ' + parseInt(this.getPrizeIdUnderLine(), 10));
         this.stopMusic();
         this.prizeUncheck(this.winnedPrize.id.toString());
         this.clicable = true;
