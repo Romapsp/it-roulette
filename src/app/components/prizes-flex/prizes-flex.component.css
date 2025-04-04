@@ -13,6 +13,8 @@
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
+    overflow: hidden;
+    width: 100%;
   }
   
   .prizes-flex__wrapper {
@@ -24,12 +26,9 @@
     align-items: center;
     min-height: 265px;
     padding: 33px 0px 82px;
-    gap:15px;
-
-   
-    backface-visibility: hidden;
-
-
+    gap:15px;   
+    backface-visibility: hidden;    
+    scroll-behavior: auto; /* отключаем smooth */
   }
   
   .vertical-line {

@@ -26,7 +26,6 @@ export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges 
 
   prizesForList: prizeForList[] = [];
   private animationFrameId: number | null = null;
-  private currentX: number = 0;
   private speedMap = { 0: 0, 1: 10, 2: 20, 3: 30 };
   private container: HTMLElement | null = null;
 
@@ -51,23 +50,26 @@ export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges 
   }
 
   private startAnimation(speed: number) {
-    const containerWidth = this.container!.scrollWidth / 2;
+    if (!this.wrapperRef || speed === 0) return;
+
+    const wrapper = this.wrapperRef.nativeElement;
 
     const move = () => {
-      if (!this.container) return;
+      wrapper.scrollLeft += this.speedMap[speed as keyof typeof this.speedMap];
 
-      this.currentX -= this.speedMap[speed as keyof typeof this.speedMap];
-
-      if (Math.abs(this.currentX) >= containerWidth) {
-        this.currentX = 0;
+      // как только доходим до конца — прыгаем назад
+      if (wrapper.scrollLeft >= wrapper.scrollWidth / 2) {
+        wrapper.scrollLeft = 0;
       }
 
-      this.container.style.transform = `translateX(${this.currentX}px)`;
       this.animationFrameId = requestAnimationFrame(move);
     };
 
     this.animationFrameId = requestAnimationFrame(move);
   }
+
+
+
 
   private stopAnimation() {
     if (this.animationFrameId !== null) {
@@ -78,18 +80,18 @@ export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges 
 
   private fillContainer() {
     const original = this.prizes.map((prize, index) => ({ id: index, prize }));
-    this.prizesForList = [];
-
-    const minTotalItems = 3000;
-
-    while (this.prizesForList.length < minTotalItems) {
-      const duplicated = original.map((p, i) => ({
-        id: this.prizesForList.length + i,
-        prize: p.prize
-      }));
-      this.prizesForList.push(...duplicated);
+    const duplicate = original.map((p, i) => ({
+      id: original.length + i,
+      prize: p.prize
+    }));
+    this.prizesForList = [...original];
+    while (this.prizesForList.length < 500) {
+      this.prizesForList.push(...duplicate);
     }
   }
+
+
+
 
   ngOnDestroy() {
     this.stopAnimation();

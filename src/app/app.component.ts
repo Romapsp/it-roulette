@@ -66,47 +66,36 @@ export class AppComponent {
 
   async spinButtonClick() {
     if (!this.clicable) return;
+
     this.updatePrizeCheckState();
     this.clicable = false;
-    this.winnedPrize = (this.prizeToShow ?? [])[this.getRandomNumber(0, (this.prizeToShow?.length ?? 0) - 1)];
-    console.log('wining prize: ' + this.winnedPrize.id);
-    if (this.soundWhileSpinning) {
-      this.playRandomMelody();
-    }
-    const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+    this.winnedPrize = this.getRandomPrize();
+    console.log('Выпал приз:', this.winnedPrize.id);
+
+    const wait = (ms: number) => new Promise(res => setTimeout(res, ms));
+    if (this.soundWhileSpinning) this.playRandomMelody();
+
     this.animationSpeed = 3;
-    await wait(4000);
-    this.animationSpeed = 2;
     await wait(3000);
+    this.animationSpeed = 2;
+    await wait(2000);
     this.animationSpeed = 1;
     await wait(2000);
-    let flag = true;
-    while (flag) {
-      if (this.winnedPrize.id == parseInt(this.getPrizeIdUnderLine(), 10)) {
-        console.log('prize: ' + this.winnedPrize.id);
-        await wait(200);
-        this.animationSpeed = 0;
-        this.stopMusic();
-        this.prizeUncheck(this.winnedPrize.id.toString());
-        flag = false;
-      }
-      await wait(1);
+    let curentprizeId = this.getPrizeIdUnderLine();
+    while (this.winnedPrize.id != curentprizeId) {
+      await wait(100);
+      curentprizeId = this.getPrizeIdUnderLine();
     }
-    await wait(100);
-    console.log('curent prize: ' + parseInt(this.getPrizeIdUnderLine(), 10));
-    if (this.winnedPrize.id !== parseInt(this.getPrizeIdUnderLine(), 10)) {
-      flag = true;
-      this.animationSpeed = 1;
-      while (flag) {
-        if (this.winnedPrize.id == parseInt(this.getPrizeIdUnderLine(), 10)) {
-          this.animationSpeed = 0;
-          flag = false;
-        }
-        await wait(1);
-      }
-    }
+    this.animationSpeed = 0;
+    this.stopMusic();
+    this.prizeUncheck(this.winnedPrize.id.toString());
+
+    console.log("Остановились на:", this.winnedPrize.id);
     this.clicable = true;
   }
+
+
 
 
   getPrizeIdUnderLine() {
@@ -117,7 +106,7 @@ export class AppComponent {
     const yInPixels = window.innerHeight * 0.13;
     const centerElement = document.elementFromPoint(xInPixels, yInPixels) as HTMLElement;
     line.style.visibility = 'visible';
-    return centerElement?.id;
+    return Number(centerElement?.id);
   }
 
 
@@ -165,9 +154,11 @@ export class AppComponent {
     }
   }
 
-  correctPrizeStoping(prizeId: number) {
-
+  getRandomPrize(): prize {
+    const list = this.prizeToShow ?? [];
+    return list[this.getRandomNumber(0, list.length - 1)];
   }
+
 
 }
 interface checkedPrize {
