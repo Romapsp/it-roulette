@@ -1,5 +1,10 @@
 import { Component, Input, AfterViewInit, OnDestroy, ViewChild, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
 import { prize } from '../../interfaces/prize.interface';
+
+interface prizeForList {
+  id: number;
+  prize: prize;
+}
 import { PrizeComponent } from "../prize/prize.component";
 import { CommonModule } from '@angular/common';
 
@@ -15,95 +20,83 @@ import { CommonModule } from '@angular/common';
 
 export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() prizes!: prize[];
-  @Input() animationSpeed: number = 1;
+  @Input() animationSpeed: number = 0;
+
   @ViewChild('wrapper', { static: false }) wrapperRef!: ElementRef<HTMLDivElement>;
+
   prizesForList: prizeForList[] = [];
   private animationFrameId: number | null = null;
   private currentX: number = 0;
-  private speedMap = { 1: 5, 2: 50, 3: 75 };
+  private speedMap = { 0: 0, 1: 5, 2: 50, 3: 75 };
   private container: HTMLElement | null = null;
-  flag: boolean = true;
-
 
   ngAfterViewInit(): void {
     this.container = this.wrapperRef.nativeElement;
+    this.initAnimation(); // безопасный запуск
   }
-
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['animationSpeed']) {
-      this.stopAnimation();
-      this.startAnimation(this.animationSpeed);
-
-    }
-    if (changes['prizes'] && Array.isArray(this.prizes)) {
-      this.prizesForList = this.prizes.map((prize, index) => ({ id: index, prize }));
-      this.fillContainer();
+    if (changes['prizes'] || changes['animationSpeed']) {
+      this.initAnimation(); // перезапуск при изменениях
     }
   }
 
+  private initAnimation() {
+    this.stopAnimation(); // защита от дубликатов
 
-  startAnimation(speed: number) {
-    this.fillContainer();
-    if (!this.container) return;
+    if (!this.container || !this.prizes?.length) return;
+
+    this.fillContainer(); // заполняем prizesForList
+    this.startAnimation(this.animationSpeed); // запускаем с нужной скоростью
+  }
+
+  private startAnimation(speed: number) {
+    const containerWidth = this.container!.scrollWidth / 2;
+
     const move = () => {
       if (!this.container) return;
+
       this.currentX -= this.speedMap[speed as keyof typeof this.speedMap];
-      if (Math.abs(this.currentX) >= this.container.scrollWidth / 2) {
+
+      if (Math.abs(this.currentX) >= containerWidth) {
         this.currentX = 0;
-        this.moveElementsToStart();
       }
+
       this.container.style.transform = `translateX(${this.currentX}px)`;
       this.animationFrameId = requestAnimationFrame(move);
     };
-    if (speed > 0) {
-      this.animationFrameId = requestAnimationFrame(move);
-    }
+
+    this.animationFrameId = requestAnimationFrame(move);
   }
 
-
-  stopAnimation() {
+  private stopAnimation() {
     if (this.animationFrameId !== null) {
       cancelAnimationFrame(this.animationFrameId);
       this.animationFrameId = null;
     }
   }
 
+  private fillContainer() {
+    const original = this.prizes.map((prize, index) => ({ id: index, prize }));
+    this.prizesForList = [];
 
-  fillContainer() {
-    const containerWidth = this.container?.offsetWidth || 0;
-    const itemWidth = this.container?.firstElementChild?.clientWidth || 0;
-    if (itemWidth === 0 || containerWidth === 0 || this.prizesForList.length === 0) return;
-    const numberOfElementsToFill = 9;
-    const items = this.prizesForList.slice();
-    while (this.prizesForList.length < 3000) {
-      this.prizesForList.push(...items);
+    const minTotalItems = 50;
+
+    while (this.prizesForList.length < minTotalItems) {
+      const duplicated = original.map((p, i) => ({
+        id: this.prizesForList.length + i,
+        prize: p.prize
+      }));
+      this.prizesForList.push(...duplicated);
     }
   }
-
-
-  moveElementsToStart() {
-    if (this.prizesForList.length > 1) {
-      const firstElement = this.prizesForList.shift();
-      if (firstElement) {
-        this.prizesForList.push(firstElement);
-      }
-    }
-  }
-
 
   ngOnDestroy() {
     this.stopAnimation();
   }
-
 
   trackByFn(index: number, prize: prizeForList): number {
     return prize.id;
   }
 }
 
-
-interface prizeForList {
-  id: number;
-  prize: prize;
-}

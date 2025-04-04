@@ -6,6 +6,7 @@ import { PrizesCodeComponent } from "./components/prizes-code/prizes-code.compon
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { prize } from "./interfaces/prize.interface";
+import { waitForAsync } from "@angular/core/testing";
 
 
 @Component({
@@ -68,7 +69,7 @@ export class AppComponent {
     this.updatePrizeCheckState();
     this.clicable = false;
     this.winnedPrize = (this.prizeToShow ?? [])[this.getRandomNumber(0, (this.prizeToShow?.length ?? 0) - 1)];
-    console.log('wp: ' + this.winnedPrize.id);
+    console.log('wining prize: ' + this.winnedPrize.id);
     if (this.soundWhileSpinning) {
       this.playRandomMelody();
     }
@@ -82,26 +83,29 @@ export class AppComponent {
     let flag = true;
     while (flag) {
       if (this.winnedPrize.id == parseInt(this.getPrizeIdUnderLine(), 10)) {
+        console.log('prize: ' + this.winnedPrize.id);
+        await wait(200);
         this.animationSpeed = 0;
         this.stopMusic();
         this.prizeUncheck(this.winnedPrize.id.toString());
-        this.clicable = true;
         flag = false;
       }
       await wait(1);
     }
-    flag = true;
-    this.animationSpeed = 1;
-    while (flag) {
-      if (this.winnedPrize.id == parseInt(this.getPrizeIdUnderLine(), 10)) {
-        this.animationSpeed = 0;
-        this.stopMusic();
-        this.prizeUncheck(this.winnedPrize.id.toString());
-        this.clicable = true;
-        flag = false;
+    await wait(100);
+    console.log('curent prize: ' + parseInt(this.getPrizeIdUnderLine(), 10));
+    if (this.winnedPrize.id !== parseInt(this.getPrizeIdUnderLine(), 10)) {
+      flag = true;
+      this.animationSpeed = 1;
+      while (flag) {
+        if (this.winnedPrize.id == parseInt(this.getPrizeIdUnderLine(), 10)) {
+          this.animationSpeed = 0;
+          flag = false;
+        }
+        await wait(1);
       }
-      await wait(1);
     }
+    this.clicable = true;
   }
 
 

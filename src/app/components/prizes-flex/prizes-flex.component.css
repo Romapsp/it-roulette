@@ -18,11 +18,18 @@
   .prizes-flex__wrapper {
     display: flex;
     flex-wrap: nowrap;
+    white-space: nowrap;
+    overflow: hidden;
+    will-change: transform;
     align-items: center;
     min-height: 265px;
     padding: 33px 0px 82px;
-    transition: transform 0.2s linear;
     gap:15px;
+
+   
+    backface-visibility: hidden;
+
+
   }
   
   .vertical-line {
@@ -34,5 +41,9 @@
     background-color: rgb(255, 153, 0); 
     transform: translateX(-50%);
     z-index: 5;
+  }
+
+  .prize-item {
+    flex: 0 0 auto;
   }
   
