@@ -27,7 +27,7 @@ export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges 
   prizesForList: prizeForList[] = [];
   private animationFrameId: number | null = null;
   private currentX: number = 0;
-  private speedMap = { 0: 0, 1: 5, 2: 50, 3: 75 };
+  private speedMap = { 0: 0, 1: 10, 2: 20, 3: 30 };
   private container: HTMLElement | null = null;
 
   ngAfterViewInit(): void {
@@ -80,7 +80,7 @@ export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges 
     const original = this.prizes.map((prize, index) => ({ id: index, prize }));
     this.prizesForList = [];
 
-    const minTotalItems = 50;
+    const minTotalItems = 3000;
 
     while (this.prizesForList.length < minTotalItems) {
       const duplicated = original.map((p, i) => ({
