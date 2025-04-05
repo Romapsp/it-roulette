@@ -67,22 +67,17 @@ export class AppComponent {
 
   async spinButtonClick() {
     if (!this.clicable) return;
-
     this.updatePrizeCheckState();
     this.clicable = false;
-
     this.winnedPrize = this.getRandomPrize();
-    console.log('Выпал приз:', this.winnedPrize.id);
-
     const wait = (ms: number) => new Promise(res => setTimeout(res, ms));
     if (this.soundWhileSpinning) this.playRandomMelody();
-
     this.animationSpeed = 3;
-    await wait(30000);
+    await wait(3500);
     this.animationSpeed = 2;
-    await wait(2000);
+    await wait(3500);
     this.animationSpeed = 1;
-    await wait(2000);
+    await wait(3000);
     let curentprizeId = this.getPrizeIdUnderLine();
     while (this.winnedPrize.id != curentprizeId) {
       await wait(100);
@@ -91,8 +86,6 @@ export class AppComponent {
     this.animationSpeed = 0;
     this.stopMusic();
     this.prizeUncheck(this.winnedPrize.id.toString());
-
-    console.log("Остановились на:", this.winnedPrize.id);
     this.clicable = true;
   }
 
@@ -120,7 +113,6 @@ export class AppComponent {
       console.warn("Список мелодий пуст, не могу воспроизвести звук.");
       return;
     }
-    console.log("Воспроизведение мелодии:", this.melodies);
     const randomIndex = Math.floor(Math.random() * this.melodies.length);
     const selectedMelody = this.melodies[randomIndex].path;
     this.melodies.splice(randomIndex, 1);

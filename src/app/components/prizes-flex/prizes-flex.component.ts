@@ -26,27 +26,27 @@ export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges 
 
   prizesForList: prizeForList[] = [];
   private animationFrameId: number | null = null;
-  private speedMap = { 0: 0, 1: 10, 2: 20, 3: 30 };
+  private speedMap = { 0: 0, 1: 20, 2: 40, 3: 60 };
   private container: HTMLElement | null = null;
 
   ngAfterViewInit(): void {
     this.container = this.wrapperRef.nativeElement;
-    this.initAnimation(); // безопасный запуск
+    this.initAnimation();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['prizes'] || changes['animationSpeed']) {
-      this.initAnimation(); // перезапуск при изменениях
+      this.initAnimation();
     }
   }
 
   private initAnimation() {
-    this.stopAnimation(); // защита от дубликатов
+    this.stopAnimation();
 
     if (!this.container || !this.prizes?.length) return;
 
-    this.fillContainer(); // заполняем prizesForList
-    this.startAnimation(this.animationSpeed); // запускаем с нужной скоростью
+    this.fillContainer();
+    this.startAnimation(this.animationSpeed);
   }
 
   private startAnimation(speed: number) {
@@ -57,7 +57,7 @@ export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges 
     const move = () => {
       wrapper.scrollLeft += this.speedMap[speed as keyof typeof this.speedMap];
 
-      // как только доходим до конца — прыгаем назад
+
       if (wrapper.scrollLeft >= wrapper.scrollWidth / 2) {
         wrapper.scrollLeft = 0;
       }
