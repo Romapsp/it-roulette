@@ -1,10 +1,8 @@
 .prize{
     width: 205px;
     height: 250px;
-    overflow: hidden;
     border: 1px solid #3b3a3a;
     background-color: #242323;
-    color: aliceblue;
 }
 
 img {    
@@ -14,14 +12,13 @@ img {
 }
 
 .prize__text{
-    color: aliceblue;
     display: flex;
     flex-direction: row;
-    margin-left: 5px;
-    margin-right: 5px;
+    flex-wrap: wrap !important;
+    white-space: wrap;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
+    text-align: center;
+    color: aliceblue;
+    height: 70px;
 }
-
-
