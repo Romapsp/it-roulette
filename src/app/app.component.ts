@@ -1,12 +1,10 @@
 import { Component, inject } from "@angular/core";
 import { PrizeService } from "./servises/prizeServise";
 import { PrizesFlexComponent } from "./components/prizes-flex/prizes-flex.component";
-import { SpinButtonComponent } from "./components/spin-button/spin-button.component";
 import { PrizesCodeComponent } from "./components/prizes-code/prizes-code.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { prize } from "./interfaces/prize.interface";
-import { waitForAsync } from "@angular/core/testing";
 import { melody } from "./interfaces/melody.interface";
 
 
@@ -31,13 +29,14 @@ export class AppComponent {
   prizeService: PrizeService = inject(PrizeService);
   prizes!: prize[];
   prizeToShow?: prize[] = [];
-  winnedPrize?: prize = undefined;
   soundWhileSpinning?: boolean = true;
   melodies: melody[] = [];
   private audio: HTMLAudioElement | null = null;
   clicable: boolean = true;
   animationSpeed: number = 0;
-
+  speedMultiplier: string = '1';
+  duration: number = 0;
+  spinningTime: number = 5;
 
   ngOnInit() {
     this.prizeService.getPrizes().subscribe(data => {
@@ -65,27 +64,26 @@ export class AppComponent {
   }
 
 
+  wait(ms: number) {
+    return new Promise(res => setTimeout(res, ms));
+  }
+
+
+
   async spinButtonClick() {
     if (!this.clicable) return;
     this.updatePrizeCheckState();
     this.clicable = false;
-    this.winnedPrize = this.getRandomPrize();
-    const wait = (ms: number) => new Promise(res => setTimeout(res, ms));
     if (this.soundWhileSpinning) this.playRandomMelody();
-    this.animationSpeed = 3;
-    await wait(3500);
-    this.animationSpeed = 2;
-    await wait(3500);
-    this.animationSpeed = 1;
-    await wait(3000);
-    let curentprizeId = this.getPrizeIdUnderLine();
-    while (this.winnedPrize.id != curentprizeId) {
-      await wait(100);
-      curentprizeId = this.getPrizeIdUnderLine();
-    }
-    this.animationSpeed = 0;
+    this.animationSpeed = 10 * Number(this.speedMultiplier) + this.getRandomNumber(0, 5) * Number(this.speedMultiplier);
+    this.duration = this.spinningTime * 1000 + this.getRandomNumber(500, 1000);
+    await this.wait(this.spinningTime * 1000 + 500);
     this.stopMusic();
-    this.prizeUncheck(this.winnedPrize.id.toString());
+    if (this.getPrizeIdUnderLine() == '') {
+      this.animationSpeed = 10;
+      this.duration = 10;
+    }
+    this.prizeUncheck(this.getPrizeIdUnderLine());
     this.clicable = true;
   }
 
@@ -100,7 +98,7 @@ export class AppComponent {
     const yInPixels = window.innerHeight * 0.13;
     const centerElement = document.elementFromPoint(xInPixels, yInPixels) as HTMLElement;
     line.style.visibility = 'visible';
-    return Number(centerElement?.id);
+    return centerElement?.id;
   }
 
 
@@ -147,12 +145,6 @@ export class AppComponent {
       prizeToUncheck.checked = false;
     }
   }
-
-  getRandomPrize(): prize {
-    const list = this.prizeToShow ?? [];
-    return list[this.getRandomNumber(0, list.length - 1)];
-  }
-
 
 }
 interface checkedPrize {

@@ -1,7 +1,8 @@
 <div class="container">
     <div class="wrapper">
         @if(prizes){
-        <app-prizes-flex [prizes]="prizeToShow ?? []" [animationSpeed]="animationSpeed"></app-prizes-flex>
+        <app-prizes-flex [prizes]="prizeToShow ?? []" [animationSpeed]="animationSpeed"
+            [duration]="duration"></app-prizes-flex>
         }
         <div class="roulette-actions ">
             <div class="gray-block">
@@ -14,6 +15,28 @@
             <ul class="settings-list">
                 <li class="settings-list-item">
                     <p>Sound while spinning</p><input [(ngModel)]="soundWhileSpinning" type="checkbox">
+                </li>
+                <li class="settings-list-item">
+                    <p>Speed multiplier</p>
+                    <select [(ngModel)]="speedMultiplier">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </li>
+                <li class="settings-list-item">
+                    <p>Spinning time</p>
+                    <select [(ngModel)]="spinningTime">
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
                 </li>
             </ul>
             <ul class="settings-list">

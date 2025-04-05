@@ -1,10 +1,5 @@
-import { Component, Input, AfterViewInit, OnDestroy, ViewChild, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, AfterViewInit, OnDestroy, ViewChild, ElementRef, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { prize } from '../../interfaces/prize.interface';
-
-interface prizeForList {
-  id: number;
-  prize: prize;
-}
 import { PrizeComponent } from "../prize/prize.component";
 import { CommonModule } from '@angular/common';
 
@@ -21,54 +16,57 @@ import { CommonModule } from '@angular/common';
 export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges {
   @Input() prizes!: prize[];
   @Input() animationSpeed: number = 0;
-
+  @Input() duration: number = 0;
   @ViewChild('wrapper', { static: false }) wrapperRef!: ElementRef<HTMLDivElement>;
-
   prizesForList: prizeForList[] = [];
   private animationFrameId: number | null = null;
-  private speedMap = { 0: 0, 1: 20, 2: 40, 3: 60 };
   private container: HTMLElement | null = null;
+
+
+  constructor(private cdr: ChangeDetectorRef) { }
+
 
   ngAfterViewInit(): void {
     this.container = this.wrapperRef.nativeElement;
     this.initAnimation();
+    this.cdr.detectChanges()
   }
 
+
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['prizes'] || changes['animationSpeed']) {
+    if ((changes['prizes'] || changes['animationSpeed']) && this.wrapperRef) {
       this.initAnimation();
     }
   }
 
+
   private initAnimation() {
     this.stopAnimation();
-
     if (!this.container || !this.prizes?.length) return;
-
     this.fillContainer();
-    this.startAnimation(this.animationSpeed);
+    this.startAnimation(this.animationSpeed, this.duration);
   }
 
-  private startAnimation(speed: number) {
+
+  private startAnimation(speed: number, duration: number) {
     if (!this.wrapperRef || speed === 0) return;
-
     const wrapper = this.wrapperRef.nativeElement;
-
+    const startTime = performance.now();
+    const initialSpeed = speed;
     const move = () => {
-      wrapper.scrollLeft += this.speedMap[speed as keyof typeof this.speedMap];
-
-
+      const elapsedTime = performance.now() - startTime;
+      const progress = Math.min(elapsedTime / duration, 1);
+      const currentSpeed = initialSpeed * (1 - progress);
+      wrapper.scrollLeft += currentSpeed;
       if (wrapper.scrollLeft >= wrapper.scrollWidth / 2) {
         wrapper.scrollLeft = 0;
       }
-
-      this.animationFrameId = requestAnimationFrame(move);
+      if (progress < 1) {
+        this.animationFrameId = requestAnimationFrame(move);
+      }
     };
-
     this.animationFrameId = requestAnimationFrame(move);
   }
-
-
 
 
   private stopAnimation() {
@@ -77,6 +75,7 @@ export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges 
       this.animationFrameId = null;
     }
   }
+
 
   private fillContainer() {
     const original = this.prizes.map((prize, index) => ({ id: index, prize }));
@@ -91,14 +90,18 @@ export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges 
   }
 
 
-
-
   ngOnDestroy() {
     this.stopAnimation();
   }
+
 
   trackByFn(index: number, prize: prizeForList): number {
     return prize.id;
   }
 }
 
+
+interface prizeForList {
+  id: number;
+  prize: prize;
+}

@@ -26,7 +26,7 @@
     align-items: center;
     min-height: 265px;
     padding: 33px 0px 82px;
-    gap:15px;   
+    gap:5px;   
     backface-visibility: hidden;    
     scroll-behavior: auto; /* отключаем smooth */
   }

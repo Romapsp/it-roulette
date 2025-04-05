@@ -2,9 +2,11 @@
     <div class="vertical-line"></div>
     <div class="prizes-flex__prizes">
         <div class="prizes-flex__wrapper" #wrapper>
+            @if(prizesForList && prizesForList.length > 0){
             <ng-container *ngFor="let prize of prizesForList; trackBy: trackByFn">
                 <app-prize [prize]="prize.prize"></app-prize>
             </ng-container>
+            }
         </div>
     </div>
 </div>
