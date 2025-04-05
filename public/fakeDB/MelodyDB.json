@@ -1,0 +1,38 @@
+[
+    {
+       "id": "1",
+        "path": "melodies/1.mp3"
+    },
+    {
+        "id": "2",
+        "path": "melodies/2.mp3"
+    },
+    {
+        "id": "3",
+        "path": "melodies/3.mp3"
+    },
+    {
+        "id": "4",
+        "path": "melodies/4.mp3"
+    },
+    {
+        "id": "5",
+        "path": "melodies/5.mp3"
+    },
+    {
+        "id": "6",
+        "path": "melodies/6.mp3"
+    },
+    {
+        "id": "7",
+        "path": "melodies/7.mp3"
+    },
+    {
+        "id": "8",
+        "path": "melodies/8.mp3"
+    },
+    {
+        "id": "9",
+        "path": "melodies/9.mp3"
+    }
+]

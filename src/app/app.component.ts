@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { prize } from "./interfaces/prize.interface";
 import { waitForAsync } from "@angular/core/testing";
+import { melody } from "./interfaces/melody.interface";
 
 
 @Component({
@@ -32,10 +33,7 @@ export class AppComponent {
   prizeToShow?: prize[] = [];
   winnedPrize?: prize = undefined;
   soundWhileSpinning?: boolean = true;
-  melodiesPaths: string[] = [
-    'melodies/1.mp3', 'melodies/2.mp3', 'melodies/3.mp3', 'melodies/4.mp3',
-    'melodies/5.mp3', 'melodies/6.mp3', 'melodies/7.mp3', 'melodies/8.mp3', 'melodies/9.mp3'
-  ];
+  melodies: melody[] = [];
   private audio: HTMLAudioElement | null = null;
   clicable: boolean = true;
   animationSpeed: number = 0;
@@ -48,6 +46,9 @@ export class AppComponent {
         this.checkedPrizes?.push({ checked: true, prize: this.prizes[i] });
         this.prizeToShow?.push(this.prizes[i]);
       }
+    });
+    this.prizeService.getMelodies().subscribe(data => {
+      this.melodies = data;
     });
   }
 
@@ -77,7 +78,7 @@ export class AppComponent {
     if (this.soundWhileSpinning) this.playRandomMelody();
 
     this.animationSpeed = 3;
-    await wait(3000);
+    await wait(30000);
     this.animationSpeed = 2;
     await wait(2000);
     this.animationSpeed = 1;
@@ -115,15 +116,16 @@ export class AppComponent {
       this.audio.pause();
       this.audio.currentTime = 0;
     }
-    if (this.melodiesPaths.length === 0) {
+    if (this.melodies.length === 0) {
       console.warn("Список мелодий пуст, не могу воспроизвести звук.");
       return;
     }
-    const randomIndex = Math.floor(Math.random() * this.melodiesPaths.length);
-    const selectedMelody = this.melodiesPaths[randomIndex];
-    this.melodiesPaths.splice(randomIndex, 1);
+    console.log("Воспроизведение мелодии:", this.melodies);
+    const randomIndex = Math.floor(Math.random() * this.melodies.length);
+    const selectedMelody = this.melodies[randomIndex].path;
+    this.melodies.splice(randomIndex, 1);
     this.audio = new Audio(selectedMelody);
-    this.audio.loop = true;
+    this.audio.loop = false;
     this.audio.play().catch(error => console.error('Ошибка при воспроизведении:', error));
   }
 
