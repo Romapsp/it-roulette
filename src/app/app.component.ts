@@ -38,6 +38,7 @@ export class AppComponent {
   duration: number = 0;
   spinningTime: number = 10;
 
+
   ngOnInit() {
     this.prizeService.getPrizes().subscribe(data => {
       this.prizes = data;
@@ -69,7 +70,6 @@ export class AppComponent {
   }
 
 
-
   async spinButtonClick() {
     if (!this.clicable) return;
     this.updatePrizeCheckState();
@@ -77,17 +77,16 @@ export class AppComponent {
     if (this.soundWhileSpinning) this.playRandomMelody();
     this.animationSpeed = 10 * Number(this.speedMultiplier) + this.getRandomNumber(0, 5) * Number(this.speedMultiplier);
     this.duration = this.spinningTime * 1000 + this.getRandomNumber(500, 1000);
-    await this.wait(this.spinningTime * 1000 + 500);
+    await this.wait(this.spinningTime * 1000 + 750);
     this.stopMusic();
+    console.log(this.getPrizeIdUnderLine());
     if (this.getPrizeIdUnderLine() == '') {
-      this.animationSpeed = 10;
-      this.duration = 100;
+      this.animationSpeed = 100;
+      this.duration = 1000;
     }
     this.prizeUncheck(this.getPrizeIdUnderLine());
     this.clicable = true;
   }
-
-
 
 
   getPrizeIdUnderLine() {
@@ -145,8 +144,9 @@ export class AppComponent {
       prizeToUncheck.checked = false;
     }
   }
-
 }
+
+
 interface checkedPrize {
   checked: boolean,
   prize: prize

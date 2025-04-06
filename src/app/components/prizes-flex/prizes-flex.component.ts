@@ -49,24 +49,20 @@ export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges 
 
 
   private startAnimation(speed: number, duration: number) {
+    console.log('startAnimation', speed, duration);
     if (!this.wrapperRef || speed === 0 || duration <= 2000) return;
-
     const wrapper = this.wrapperRef.nativeElement;
     const startTime = performance.now();
-
     const initialSpeed = speed;
     const minSpeed = 2;
     const fadeDuration = duration - 2000;
     const totalDuration = duration;
-
     const move = () => {
       const elapsedTime = performance.now() - startTime;
-
       let currentSpeed = 0;
-
       if (elapsedTime < fadeDuration) {
         const progress = elapsedTime / fadeDuration;
-        const eased = 1 - Math.pow(1 - progress, 3); 
+        const eased = 1 - Math.pow(1 - progress, 3);
         currentSpeed = initialSpeed - (initialSpeed - minSpeed) * eased;
       } else if (elapsedTime < totalDuration) {
         currentSpeed = minSpeed;
@@ -74,19 +70,14 @@ export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges 
         this.stopAnimation();
         return;
       }
-
       wrapper.scrollLeft += currentSpeed;
-
       if (wrapper.scrollLeft >= wrapper.scrollWidth / 2) {
         wrapper.scrollLeft = 0;
       }
-
       this.animationFrameId = requestAnimationFrame(move);
     };
-
     this.animationFrameId = requestAnimationFrame(move);
   }
-
 
 
   private stopAnimation() {

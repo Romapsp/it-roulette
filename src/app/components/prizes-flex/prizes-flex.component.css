@@ -26,9 +26,9 @@
     align-items: center;
     min-height: 265px;
     padding: 33px 0px 82px;
-    gap:5px;   
+    gap:0;   
     backface-visibility: hidden;    
-    scroll-behavior: auto; /* отключаем smooth */
+    scroll-behavior: auto; 
   }
   
   .vertical-line {
