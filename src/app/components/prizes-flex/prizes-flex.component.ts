@@ -56,7 +56,7 @@ export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges 
 
     const initialSpeed = speed;
     const minSpeed = 2;
-    const fadeDuration = duration - 2000; // первая фаза
+    const fadeDuration = duration - 2000;
     const totalDuration = duration;
 
     const move = () => {
@@ -65,15 +65,12 @@ export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges 
       let currentSpeed = 0;
 
       if (elapsedTime < fadeDuration) {
-        // Фаза затухания: от initialSpeed до minSpeed
         const progress = elapsedTime / fadeDuration;
-        const eased = 1 - Math.pow(1 - progress, 3); // ease-out
+        const eased = 1 - Math.pow(1 - progress, 3); 
         currentSpeed = initialSpeed - (initialSpeed - minSpeed) * eased;
       } else if (elapsedTime < totalDuration) {
-        // Фаза медленной прокрутки
         currentSpeed = minSpeed;
       } else {
-        // Завершение
         this.stopAnimation();
         return;
       }
