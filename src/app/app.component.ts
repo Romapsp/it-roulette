@@ -34,9 +34,9 @@ export class AppComponent {
   private audio: HTMLAudioElement | null = null;
   clicable: boolean = true;
   animationSpeed: number = 0;
-  speedMultiplier: string = '1';
+  speedMultiplier: string = '3';
   duration: number = 0;
-  spinningTime: number = 5;
+  spinningTime: number = 10;
 
   ngOnInit() {
     this.prizeService.getPrizes().subscribe(data => {
@@ -81,7 +81,7 @@ export class AppComponent {
     this.stopMusic();
     if (this.getPrizeIdUnderLine() == '') {
       this.animationSpeed = 10;
-      this.duration = 10;
+      this.duration = 100;
     }
     this.prizeUncheck(this.getPrizeIdUnderLine());
     this.clicable = true;
