@@ -81,8 +81,10 @@ export class AppComponent {
     this.stopMusic();
     console.log(this.getPrizeIdUnderLine());
     if (this.getPrizeIdUnderLine() == '') {
-      this.animationSpeed = 100;
-      this.duration = 1000;
+      console.log('Пустой id приза, повторите попытку');
+      this.animationSpeed = 0.3;
+      this.duration = 2001;
+      await this.wait(2001);
     }
     this.prizeUncheck(this.getPrizeIdUnderLine());
     this.clicable = true;

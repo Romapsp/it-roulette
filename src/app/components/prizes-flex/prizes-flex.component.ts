@@ -35,7 +35,7 @@ export class PrizesFlexComponent implements AfterViewInit, OnDestroy, OnChanges 
 
   ngOnChanges(changes: SimpleChanges): void {
     if ((changes['prizes'] || changes['animationSpeed']) && this.wrapperRef) {
-      this.initAnimation();
+      setTimeout(() => this.initAnimation(), 0); // отложим на следующий tick
     }
   }
 
