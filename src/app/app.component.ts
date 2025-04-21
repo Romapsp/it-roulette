@@ -33,7 +33,7 @@ export class AppComponent {
   private audio: HTMLAudioElement | null = null;
   clicable: boolean = true;
   animationSpeed: number = 0;
-  speedMultiplier: string = '3';
+  speedMultiplier: string = '7';
   duration: number = 0;
   spinningTime: number = 10;
 
