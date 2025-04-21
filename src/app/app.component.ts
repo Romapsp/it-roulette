@@ -13,7 +13,6 @@ import { melody } from "./interfaces/melody.interface";
   standalone: true,
   imports: [
     PrizesFlexComponent,
-    PrizesCodeComponent,
     FormsModule,
     CommonModule,
     ReactiveFormsModule

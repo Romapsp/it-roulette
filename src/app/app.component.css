@@ -119,3 +119,19 @@ p {
         border-color: initial;
         border-image: initial;
     }
+
+    footer{
+        align-self: flex-start;
+    }
+
+    .linkedinImg{
+        width: 20px;
+        height: 20px;
+    }
+
+    a{
+        color: aliceblue;
+        cursor: pointer;
+        text-decoration: none;
+        font-size:large;
+    }
