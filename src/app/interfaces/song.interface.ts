@@ -1,4 +1,4 @@
-export interface melody {
+export interface song {
     id: number,
     path: string
 }

@@ -5,7 +5,7 @@ import { PrizesCodeComponent } from "./components/prizes-code/prizes-code.compon
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { prize } from "./interfaces/prize.interface";
-import { melody } from "./interfaces/melody.interface";
+import { song } from "./interfaces/song.interface";
 
 
 @Component({
@@ -29,7 +29,7 @@ export class AppComponent {
   prizes!: prize[];
   prizeToShow?: prize[] = [];
   soundWhileSpinning?: boolean = true;
-  melodies: melody[] = [];
+  songs: song[] = [];
   private audio: HTMLAudioElement | null = null;
   clicable: boolean = true;
   animationSpeed: number = 0;
@@ -46,8 +46,8 @@ export class AppComponent {
         this.prizeToShow?.push(this.prizes[i]);
       }
     });
-    this.prizeService.getMelodies().subscribe(data => {
-      this.melodies = data;
+    this.prizeService.getSongs().subscribe(data => {
+      this.songs = data;
     });
   }
 
@@ -107,13 +107,13 @@ export class AppComponent {
       this.audio.pause();
       this.audio.currentTime = 0;
     }
-    if (this.melodies.length === 0) {
+    if (this.songs.length === 0) {
       console.warn("Список мелодий пуст, не могу воспроизвести звук.");
       return;
     }
-    const randomIndex = Math.floor(Math.random() * this.melodies.length);
-    const selectedMelody = this.melodies[randomIndex].path;
-    this.melodies.splice(randomIndex, 1);
+    const randomIndex = Math.floor(Math.random() * this.songs.length);
+    const selectedMelody = this.songs[randomIndex].path;
+    this.songs.splice(randomIndex, 1);
     this.audio = new Audio(selectedMelody);
     this.audio.loop = false;
     this.audio.play().catch(error => console.error('Ошибка при воспроизведении:', error));
