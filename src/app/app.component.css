@@ -120,18 +120,39 @@ p {
         border-image: initial;
     }
 
-    footer{
+    /* footer{
         align-self: flex-start;
-    }
+    } */
 
     .linkedinImg{
         width: 20px;
         height: 20px;
     }
 
-    a{
-        color: aliceblue;
-        cursor: pointer;
-        text-decoration: none;
-        font-size:large;
+    .center-container {
+        flex-direction: column;
+        align-items: center;      
+        text-align: center;   
     }
+    
+
+    a {
+        color: #66ccff; /* light blue to stand out */
+        text-decoration: underline;
+        font-size: large;
+        cursor: pointer;
+        transition: color 0.2s ease, text-decoration 0.2s ease;
+    }
+    
+    a:hover,
+    a:focus {
+        color: aliceblue;
+        text-decoration: none;
+    }
+    
+    .label-text {
+        color: aliceblue;
+        font-size: large;
+        cursor: default; /* clearly not clickable */
+    }
+    
