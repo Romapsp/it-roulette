@@ -49,7 +49,7 @@ In order to update the names, you need to do the following steps:
 1. In the root (it-roulette) folder go to /public
 2. Open /fakeDB folder 
 3. Open PrizeDB.json file
-4. Modify the text inside each object to any name you need
+4. Modify the text inside each object to any name you need, and set id to +1 from the last object
 5. (!) if you have less than 9 participants, you need to delete the spare objects. If you have more than 9 participants, then simply copy and insert new objects and then modify the names and locations inside the "image" value
 
 In order to update the images, you need to do the following steps: 
@@ -57,7 +57,18 @@ In order to update the images, you need to do the following steps:
 2. Open /prizeImages folder 
 3. Put new images in .png extension. Note: the image proportions should be square (i.e. 4x4) in order to be displayed without any disproportions
 4. (!) Don't forget to add the spare objects inside the PrizeDB.json in order to display your images 
+Note: Be sure that name of the image matches with the name in in PrizeDB.json file 
 
+## Updating Songs 
+
+In order to update the names, you need to do the following steps: 
+1. In the root (it-roulette) folder go to /public
+2. Open /fakeDB folder 
+3. Open SongDB.json file
+4. Add/Replace/Delete the objects with the songs. Note: the ids should follow each by each with +1. So, it should be like 1, 2, 3, 4 and NOT like 1, 10, 22, 40
+5. Open /songs folder 
+6. Add/Replace/Delete the songs in mp3 format with the required. It's recommended to use or cut songs with the timeline you need (from 5 to 10s)
+Note: Be sure that name of the song matches with the name in in SongDB.json file 
 
 ## Additional Resources
 
