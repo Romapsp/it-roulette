@@ -8,6 +8,9 @@ Pre-Conditions:
 - Installed NodeJS
 - Installed NVM
 - Installed NPM 
+- Installed Git
+
+
 To start a local development server, run:
 
 1. Clone the Repository: 
@@ -17,7 +20,7 @@ git clone https://github.com/Romapsp/it-roulette.git
 
 2. Go inside the folder: 
 ```bash
-cd ... 
+cd it-roulette 
 ```
 
 3. Install missing packages: 
