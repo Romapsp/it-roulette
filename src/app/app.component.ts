@@ -23,7 +23,7 @@ import { song } from "./interfaces/song.interface";
 
 
 export class AppComponent {
-  title = 'Roulette';
+  title = 'IT-Roulette';
   checkedPrizes?: checkedPrize[] = [];
   prizeService: PrizeService = inject(PrizeService);
   prizes!: prize[];
