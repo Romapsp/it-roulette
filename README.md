@@ -43,29 +43,20 @@ npm start
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-## Code scaffolding
+## Updating Images and its displayed Names 
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+In order to update the names, you need to do the following steps: 
+1. In the root (it-roulette) folder go to /public
+2. Open /fakeDB folder 
+3. Open PrizeDB.json file
+4. Modify the text inside each object to any name you need
+5. (!) if you have less than 9 participants, you need to delete the spare objects. If you have more than 9 participants, then simply copy and insert new objects and then modify the names and locations inside the "image" value
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+In order to update the images, you need to do the following steps: 
+1. In the root (it-roulette) folder go to /public
+2. Open /prizeImages folder 
+3. Put new images in .png extension. Note: the image proportions should be square (i.e. 4x4) in order to be displayed without any disproportions
+4. (!) Don't forget to add the spare objects inside the PrizeDB.json in order to display your images 
 
 
 ## Additional Resources
