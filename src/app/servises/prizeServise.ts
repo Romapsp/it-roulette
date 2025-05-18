@@ -14,7 +14,7 @@ export class PrizeService {
     constructor(private http: HttpClient) { }
 
     private prizeUrl = 'fakeDB/PrizeDB.json';
-    private songUrl = 'fakeDB/MelodyDB.json';
+    private songUrl = 'fakeDB/SongDB.json';
 
     getPrizes() {
         return this.http.get<prize[]>(this.prizeUrl);

@@ -73,7 +73,7 @@ export class AppComponent {
     if (!this.clicable) return;
     this.updatePrizeCheckState();
     this.clicable = false;
-    if (this.soundWhileSpinning) this.playRandomMelody();
+    if (this.soundWhileSpinning) this.playRandomSong();
     this.animationSpeed = 10 * Number(this.speedMultiplier) + this.getRandomNumber(0, 5) * Number(this.speedMultiplier);
     this.duration = this.spinningTime * 1000 + this.getRandomNumber(500, 1000);
     await this.wait(this.spinningTime * 1000 + 750);
@@ -102,7 +102,7 @@ export class AppComponent {
   }
 
 
-  playRandomMelody() {
+  playRandomSong() {
     if (this.audio) {
       this.audio.pause();
       this.audio.currentTime = 0;
@@ -112,9 +112,9 @@ export class AppComponent {
       return;
     }
     const randomIndex = Math.floor(Math.random() * this.songs.length);
-    const selectedMelody = this.songs[randomIndex].path;
+    const selectedSong = this.songs[randomIndex].path;
     this.songs.splice(randomIndex, 1);
-    this.audio = new Audio(selectedMelody);
+    this.audio = new Audio(selectedSong);
     this.audio.loop = false;
     this.audio.play().catch(error => console.error('Ошибка при воспроизведении:', error));
   }
