@@ -3,11 +3,39 @@
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.5.
 
 ## Development server
-
+Pre-Conditions: 
+- Installed Angular 
+- Installed NodeJS
+- Installed NVM
+- Installed NPM 
 To start a local development server, run:
 
+1. Clone the Repository: 
 ```bash
-ng serve
+git clone https://github.com/Romapsp/it-roulette.git
+```
+
+2. Go inside the folder: 
+```bash
+cd ... 
+```
+
+3. Install missing packages: 
+
+```bash
+npm install
+```
+
+4. Apply 18 Node version by using nvm: 
+ 
+```bash
+nvm use 18
+```
+
+5. Run the project! 
+ 
+```bash
+npm start
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
@@ -36,23 +64,6 @@ ng build
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
 ## Additional Resources
 
