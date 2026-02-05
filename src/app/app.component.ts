@@ -33,9 +33,11 @@ export class AppComponent {
   private audio: HTMLAudioElement | null = null;
   clicable: boolean = true;
   animationSpeed: number = 0;
-  speedMultiplier: string = '7';
+  speedMultiplier: string = '25';
   duration: number = 0;
   spinningTime: number = 10;
+  selectAllChecked: boolean = true; // ✅ default checked
+
 
 
   ngOnInit() {
@@ -144,6 +146,20 @@ export class AppComponent {
     if (prizeToUncheck) {
       prizeToUncheck.checked = false;
     }
+  }
+  
+  toggleAllPrizes() {
+    if (!this.checkedPrizes) return;
+  
+    if (this.selectAllChecked) {
+      // Master checked → select all
+      this.checkedPrizes.forEach(prize => prize.checked = true);
+    } else {
+      // Master unchecked → just uncheck all (but don’t disable them)
+      this.checkedPrizes.forEach(prize => prize.checked = false);
+    }
+  
+    this.updatePrizeCheckState();
   }
 }
 

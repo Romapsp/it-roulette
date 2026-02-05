@@ -25,6 +25,7 @@
                         <option value="6">6</option>
                         <option value="7">7</option>
                         <option value="8">8</option>
+                        <option value="25">25</option>
                     </select>
                 </li>
                 <li class="settings-list-item">
@@ -40,13 +41,29 @@
                 </li>
             </ul>
             <ul class="settings-list">
+                <!-- Master "Select/Deselect All" -->
+                <li class="settings-list-item">
+                  <p>Select / Deselect All</p>
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="selectAllChecked"
+                    (change)="toggleAllPrizes()"
+                    checked
+                  >
+                </li>
+              
+                <!-- Individual prize checkboxes -->
                 <li *ngFor="let checkedPrize of checkedPrizes; let i = index; trackBy: trackById"
                     class="settings-list-item">
-                    <p>{{ checkedPrize.prize.text }}</p>
-                    <input type="checkbox" [id]="checkedPrize.prize.id" [(ngModel)]="checkedPrize.checked"
-                        (click)="prizeCheckStateInput(checkedPrize, $event)">
+                  <p>{{ checkedPrize.prize.text }}</p>
+                  <input
+                    type="checkbox"
+                    [id]="checkedPrize.prize.id"
+                    [(ngModel)]="checkedPrize.checked"
+                    (change)="prizeCheckStateInput(checkedPrize, $event)"
+                  >
                 </li>
-            </ul>
+            </ul>           
         </div>
         <footer>
             <div class="center-container">
