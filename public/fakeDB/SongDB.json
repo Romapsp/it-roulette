@@ -86,5 +86,25 @@
     {
         "id": "22",
         "path": "songs/22.mp3"
+    },
+    {
+        "id": "23",
+        "path": "songs/23.mp3"
+    },
+    {
+        "id": "24",
+        "path": "songs/24.mp3"
+    },
+    {
+        "id": "25",
+        "path": "songs/25.mp3"
+    },
+    {
+        "id": "26",
+        "path": "songs/26.mp3"
+    },
+    {
+        "id": "27",
+        "path": "songs/27.mp3"
     }
 ]
